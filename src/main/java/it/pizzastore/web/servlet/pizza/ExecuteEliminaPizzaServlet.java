@@ -1,4 +1,4 @@
-package it.pizzastore.web.servlet.ingrediente;
+package it.pizzastore.web.servlet.pizza;
 
 import java.io.IOException;
 
@@ -13,18 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Ingrediente;
-import it.pizzastore.service.IngredienteService;
+import it.pizzastore.model.Pizza;
+import it.pizzastore.service.PizzaService;
 
 /**
  * Servlet implementation class ExecuteEliminaMunicipioServlet
  */
-@WebServlet("/pizzaiolo/ingredienti/ExecuteEliminaIngredienteServlet")
-public class ExecuteEliminaIngredienteServlet extends HttpServlet {
+@WebServlet("/pizzaiolo/pizze/ExecuteEliminaPizzaServlet")
+public class ExecuteEliminaPizzaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private IngredienteService ingredienteService;
+	private PizzaService pizzaService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -35,7 +35,7 @@ public class ExecuteEliminaIngredienteServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ExecuteEliminaIngredienteServlet() {
+	public ExecuteEliminaPizzaServlet() {
 		super();
 	}
 
@@ -53,14 +53,14 @@ public class ExecuteEliminaIngredienteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Long id = Long.parseLong(request.getParameter("idIngrediente"));
+		Long id = Long.parseLong(request.getParameter("idPizza"));
 
-		ingredienteService.rimuovi(new Ingrediente(id));
+		pizzaService.rimuovi(new Pizza(id));
 
-		request.setAttribute("listaIngredientiAttr", ingredienteService.listAll());
+		request.setAttribute("listaPizzeAttr", pizzaService.listAll());
 		request.setAttribute("messaggioConferma", "Cancellazione avvenuta con successo");
 
-		RequestDispatcher rd = request.getRequestDispatcher("/pizzaiolo/ingredienti/result.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/pizzaiolo/pizze/result.jsp");
 		rd.forward(request, response);
 
 	}

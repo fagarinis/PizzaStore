@@ -6,7 +6,7 @@
 <head>
 
 <meta charset="ISO-8859-1">
-<title>Cancella Ingrediente</title>
+<title>Cancella Pizza</title>
 </head>
 <body>
 	<div class="container">
@@ -18,27 +18,27 @@
 		</div>
 
 
-		<form  action="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteEliminaIngredienteServlet" method="post">
+		<form action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteEliminaPizzaServlet" method="post">
 			<div class="container-fluid">
 				<dl class="row">
 					<dt class="col-sm-3 text-right">Id</dt>
-					<dd class="col-sm-9">${ingredienteAttr.id }</dd>
+					<dd class="col-sm-9">${pizzaAttr.id }</dd>
 				</dl>
 				<dl class="row">
 					<dt class="col-sm-3 text-right">Codice</dt>
-					<dd class="col-sm-9">${ingredienteAttr.codice }</dd>
+					<dd class="col-sm-9">${pizzaAttr.codice }</dd>
 				</dl>
 				<dl class="row">
 					<dt class="col-sm-3 text-right">Descrizione</dt>
-					<dd class="col-sm-9">${ingredienteAttr.descrizione }</dd>
+					<dd class="col-sm-9">${pizzaAttr.descrizione }</dd>
 				</dl>
 				<dl class="row">
 					<dt class="col-sm-3 text-right">Prezzo</dt>
-					<dd class="col-sm-9">${ingredienteAttr.prezzo }</dd>
+					<dd class="col-sm-9">${pizzaAttr.prezzo }</dd>
 				</dl>
 			</div>
 
-			<input type=hidden name="idIngrediente" value="${ingredienteAttr.id }">
+			<input type=hidden name="idPizza" value="${pizzaAttr.id }">
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">

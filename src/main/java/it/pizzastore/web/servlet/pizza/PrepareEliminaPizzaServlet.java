@@ -1,8 +1,7 @@
-package it.pizzastore.web.servlet.ingrediente;
+package it.pizzastore.web.servlet.pizza;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,18 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Ingrediente;
-import it.pizzastore.service.IngredienteService;
+import it.pizzastore.model.Pizza;
+import it.pizzastore.service.PizzaService;
 
 /**
- * Servlet implementation class ExecuteEliminaMunicipioServlet
+ * Servlet implementation class PrepareEliminaMunicipioServlet
  */
-@WebServlet("/pizzaiolo/ingredienti/ExecuteEliminaIngredienteServlet")
-public class ExecuteEliminaIngredienteServlet extends HttpServlet {
+@WebServlet("/pizzaiolo/pizze/PrepareEliminaPizzaServlet")
+public class PrepareEliminaPizzaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private IngredienteService ingredienteService;
+	private PizzaService pizzaService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -35,7 +34,7 @@ public class ExecuteEliminaIngredienteServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ExecuteEliminaIngredienteServlet() {
+	public PrepareEliminaPizzaServlet() {
 		super();
 	}
 
@@ -45,6 +44,12 @@ public class ExecuteEliminaIngredienteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Long id = Long.parseLong(request.getParameter("idIngrediente"));
+
+		Pizza pizzaDaCancellare = pizzaService.caricaSingolaPizzaConIngredienti(id);
+
+		request.setAttribute("pizzaAttr", pizzaDaCancellare);
+		request.getRequestDispatcher("/pizzaiolo/ingredienti/delete.jsp").forward(request, response);
 	}
 
 	/**
@@ -53,16 +58,6 @@ public class ExecuteEliminaIngredienteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Long id = Long.parseLong(request.getParameter("idIngrediente"));
-
-		ingredienteService.rimuovi(new Ingrediente(id));
-
-		request.setAttribute("listaIngredientiAttr", ingredienteService.listAll());
-		request.setAttribute("messaggioConferma", "Cancellazione avvenuta con successo");
-
-		RequestDispatcher rd = request.getRequestDispatcher("/pizzaiolo/ingredienti/result.jsp");
-		rd.forward(request, response);
-
 	}
 
 }

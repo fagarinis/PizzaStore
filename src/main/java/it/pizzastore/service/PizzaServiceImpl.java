@@ -56,4 +56,10 @@ public class PizzaServiceImpl implements PizzaService {
 		return (List<Pizza>) pizzaRepository.findAll(Example.of(example, matcher));
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public Pizza caricaSingolaPizzaConIngredienti(Long id) {
+		return pizzaRepository.findByIdWithIngredients(id);
+	}
+
 }

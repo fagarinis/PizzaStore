@@ -5,8 +5,9 @@
 <html>
 <head>
 
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Modifica Ingrediente</title>
+<title>Inserisci Ingrediente</title>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon" />
 </head>
 <body>
@@ -16,7 +17,7 @@
    <%@ include file="../../header.jsp" %>
       
     <div class="page-header">
-	  <h3>Pagina di Modifica Ingrediente</h3>
+	  <h3>Pagina di Inserimento Ingrediente</h3>
 	</div>
 	
 	<%-- alert con lista errori --%>
@@ -28,12 +29,12 @@
       	</c:forEach>
 	</div>
 
+
+
+
 		<!-- da implementare onsubmit ="return validateIngredienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteModificaIngredienteServlet" method="post">
+      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteInsertIngredienteServlet" method="post">
       	
-      		<input class="form-control" type="hidden" id="idInputId" name="idInput" 
-					value = "${ingredienteAttr.id}">
-      		
       		<div class="form-group">
       			<label class="control-label col-sm-2" for="codiceInputId">Codice:</label>
 	    		<div class="col-sm-4">
@@ -49,23 +50,24 @@
 					value = "${ingredienteAttr.descrizione}">
 			 	</div>
   			</div>
-  			
 			<div class="form-group">
       			<label class="control-label col-sm-2" for="prezzoInputId">Prezzo:</label>
 	    		<div class="col-sm-4">
-					<input class="form-control" type='number' step='0.01' id="prezzoInputId" name="prezzoInput" 
+					<input class="form-control" type='number' step='0.01'   id="prezzoInputId" name="prezzoInput" 
 					value = "${ingredienteAttr.prezzo}">
 			 	</div>
   			</div>
   			
   			<div class="form-group">        
 		      <div class="col-sm-offset-2 col-sm-10">
-		        <button type="submit" class="btn btn-primary btn-md">Conferma</button>
+		        <button type="submit" class="btn btn-primary btn-md">Conferma Inserimento</button>
 		      </div>
 		    </div>
+		    
 		</form>
 		
 		<%@ include file="../../footer.jsp"%>
+		
     </div><!-- /.container -->
 
 
