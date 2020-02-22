@@ -77,6 +77,11 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		
 		//verifica se ci sono errori, in caso ritorna indietro
 		List<String> utenteErrors = utenteDTO.errors();
+		Utente utenteConStessoUsername = utenteService.cercaDaUsername(utenteDTO.getUsername());
+		if (utenteConStessoUsername != null) {
+			utenteErrors.add("username non disponibile");
+		}
+		
 		if(!utenteErrors.isEmpty()) {
 			utenteDTO.setRuoli(idRuoliInputChecked);
 			request.setAttribute("utenteAttr", utenteDTO);

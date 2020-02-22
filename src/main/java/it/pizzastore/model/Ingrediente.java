@@ -1,6 +1,6 @@
 package it.pizzastore.model;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +18,7 @@ public class Ingrediente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String descrizione;
-	private BigInteger prezzo;
+	private BigDecimal prezzo;
 	private String codice;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "ingredienti")
@@ -29,6 +29,12 @@ public class Ingrediente {
 
 	public Ingrediente(Long id) {
 		this.id = id;
+	}
+
+	public Ingrediente(String descrizione, String codice, String prezzo) {
+		this.descrizione = descrizione;
+		this.codice = codice;
+		this.setPrezzo(prezzo);
 	}
 
 	public Long getId() {
@@ -47,12 +53,19 @@ public class Ingrediente {
 		this.descrizione = descrizione;
 	}
 
-	public BigInteger getPrezzo() {
+	public BigDecimal getPrezzo() {
 		return prezzo;
 	}
 
-	public void setPrezzo(BigInteger prezzo) {
+	public void setPrezzo(BigDecimal prezzo) {
 		this.prezzo = prezzo;
+	}
+
+	public void setPrezzo(String prezzoInput) {
+		try {
+			this.setPrezzo(new BigDecimal(prezzoInput));
+		} catch (Exception e) {
+		}
 	}
 
 	public String getCodice() {

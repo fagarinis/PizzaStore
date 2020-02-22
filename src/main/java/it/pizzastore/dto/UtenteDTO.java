@@ -12,7 +12,6 @@ import it.pizzastore.model.Ruolo;
 import it.pizzastore.model.StatoUtente;
 import it.pizzastore.model.Utente;
 
-
 public class UtenteDTO {
 
 	private Long id;
@@ -99,7 +98,7 @@ public class UtenteDTO {
 			this.idRuoli.add(idRuolo);
 		}
 	}
-	
+
 	public void setRuoli(String[] idRuoli) {
 		if (idRuoli == null) {
 			return;
@@ -107,7 +106,7 @@ public class UtenteDTO {
 		for (String idRuolo : idRuoli) {
 			this.ruoli.add(new Ruolo(Long.parseLong(idRuolo)));
 		}
-		
+
 	}
 
 	public void populateRuoli() {

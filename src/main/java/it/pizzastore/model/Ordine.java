@@ -1,6 +1,6 @@
 package it.pizzastore.model;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +30,7 @@ public class Ordine {
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	private boolean closed = false;
 	private String codice;
-	private BigInteger costoTotale;
+	private BigDecimal costoTotale;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "ordine_pizza", joinColumns = @JoinColumn(name = "ordine_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "pizza_id", referencedColumnName = "ID"))
@@ -83,11 +83,11 @@ public class Ordine {
 		this.codice = codice;
 	}
 
-	public BigInteger getCostoTotale() {
+	public BigDecimal getCostoTotale() {
 		return costoTotale;
 	}
 
-	public void setCostoTotale(BigInteger costoTotale) {
+	public void setCostoTotale(BigDecimal costoTotale) {
 		this.costoTotale = costoTotale;
 	}
 

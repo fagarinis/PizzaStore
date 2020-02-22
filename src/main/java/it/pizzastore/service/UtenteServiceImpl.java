@@ -82,4 +82,10 @@ public class UtenteServiceImpl implements UtenteService {
 		aggiorna(utenteModel);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public Utente cercaDaUsername(String username) {
+		return repository.findByUsername(username);
+	}
+
 }

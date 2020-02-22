@@ -11,5 +11,7 @@ public interface UtenteService extends IBaseService<Utente> {
 	public Utente caricaSingoloUtenteEager(long id);
 
 	public void aggiornaUtenteConRuoli(Utente utenteModel, List<String> listaIdRuoli);
+	
+	public Utente cercaDaUsername(String username);
 
 }

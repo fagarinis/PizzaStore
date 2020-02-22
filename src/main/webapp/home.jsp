@@ -63,7 +63,7 @@
      	 <div class="jumbotron">
       		<div class="container">
        	 		<h1 class="display-4"> Gestione Ingredienti</h1>
-       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/PrepareSearchIngredienteServlet" role="button">Vai alla Gestione &raquo;</a></p>
+       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/ingredienti/PrepareSearchIngredienteServlet" role="button">Vai alla Gestione &raquo;</a></p>
      	 	</div>
      	 </div>
      	 

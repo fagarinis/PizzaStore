@@ -14,4 +14,6 @@ public interface UtenteRepository extends CrudRepository<Utente, Long>, QueryByE
 	
 	@Query("select u from Utente u left join fetch u.ruoli r where u.id = ?1")
 	Utente findByIdEager(Long id);
+	
+	Utente findByUsername(String username);
 }

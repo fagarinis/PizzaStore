@@ -1,6 +1,6 @@
 package it.pizzastore.model;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +22,7 @@ public class Pizza {
 	private Long id;
 	private String descrizione;
 	private String codice;
-	private BigInteger prezzoBase;
+	private BigDecimal prezzoBase;
 	private boolean attivo = true;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
@@ -63,11 +63,11 @@ public class Pizza {
 		this.codice = codice;
 	}
 
-	public BigInteger getPrezzoBase() {
+	public BigDecimal getPrezzoBase() {
 		return prezzoBase;
 	}
 
-	public void setPrezzoBase(BigInteger prezzoBase) {
+	public void setPrezzoBase(BigDecimal prezzoBase) {
 		this.prezzoBase = prezzoBase;
 	}
 
@@ -95,8 +95,8 @@ public class Pizza {
 		this.ordini = ordini;
 	}
 
-	public BigInteger calcolaPrezzo() {
-		BigInteger result = this.prezzoBase;
+	public BigDecimal calcolaPrezzo() {
+		BigDecimal result = this.prezzoBase;
 		for (Ingrediente ingrediente : ingredienti) {
 			result = result.add(ingrediente.getPrezzo());
 		}

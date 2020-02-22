@@ -14,14 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.pizzastore.model.Utente;
 
-
-
 @WebFilter(filterName = "CheckAuthFilter", urlPatterns = { "/*" })
 public class CheckAuthFilter implements Filter {
 
 	private static final String HOME_PATH = "";
-	private static final String[] EXCLUDED_URLS = {"/login.jsp","/LoginServlet","/LogoutServlet","/css/","/js/"};
-	private static final String[] PROTECTED_URLS = {"/admin/"};
+	private static final String[] EXCLUDED_URLS = { "/login.jsp", "/LoginServlet", "/LogoutServlet", "/css/", "/js/" };
+	private static final String[] PROTECTED_URLS = { "/admin/" };
+	private static final String[] PROTECTED_URLS_PIZZAIOLO = { "/pizzaiolo/" };
+	private static final String[] PROTECTED_URLS_FATTORINO = { "/fattorino/" };
 
 	public CheckAuthFilter() {
 	}
@@ -35,22 +35,36 @@ public class CheckAuthFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		//prendo il path della request che sta passando in questo momento
+		// prendo il path della request che sta passando in questo momento
 		String pathAttuale = httpRequest.getServletPath();
-		
-		//vediamo se il path risulta tra quelli 'liberi di passare'
+
+		// vediamo se il path risulta tra quelli 'liberi di passare'
 		boolean isInWhiteList = isPathInWhiteList(pathAttuale);
-		
-		//se non lo e' bisogna controllare sia sessione che percorsi protetti
+
+		// se non lo e' bisogna controllare sia sessione che percorsi protetti
 		if (!isInWhiteList) {
-			Utente utenteInSession = (Utente)httpRequest.getSession().getAttribute("userInfo");
-			//intanto verifico se utente in sessione
+			Utente utenteInSession = (Utente) httpRequest.getSession().getAttribute("userInfo");
+			// intanto verifico se utente in sessione
 			if (utenteInSession == null) {
 				httpResponse.sendRedirect(httpRequest.getContextPath());
 				return;
 			}
-			//controllo che utente abbia ruolo admin se nel path risulta presente /admin/
-			if(isPathForOnlyAdministrators(pathAttuale) && !utenteInSession.isAdmin()) {
+			// controllo che utente abbia ruolo admin se nel path risulta presente /admin/
+			if (isPathForOnlyAdministrators(pathAttuale) && !utenteInSession.isAdmin()) {
+				httpRequest.setAttribute("messaggio", "Non si è autorizzati alla navigazione richiesta");
+				httpRequest.getRequestDispatcher("/home.jsp").forward(httpRequest, httpResponse);
+				return;
+			}
+			// controllo che utente abbia ruolo pizzaiolo se nel path risulta presente
+			// /pizzaiolo/
+			if (isPathForOnlyPizzaiolo(pathAttuale) && !utenteInSession.isPizzaiolo()) {
+				httpRequest.setAttribute("messaggio", "Non si è autorizzati alla navigazione richiesta");
+				httpRequest.getRequestDispatcher("/home.jsp").forward(httpRequest, httpResponse);
+				return;
+			}
+			// controllo che utente abbia ruolo admin se nel path risulta presente
+			// /fattorino/
+			if (isPathForOnlyFattorino(pathAttuale) && !utenteInSession.isFattorino()) {
 				httpRequest.setAttribute("messaggio", "Non si è autorizzati alla navigazione richiesta");
 				httpRequest.getRequestDispatcher("/home.jsp").forward(httpRequest, httpResponse);
 				return;
@@ -59,13 +73,13 @@ public class CheckAuthFilter implements Filter {
 
 		chain.doFilter(request, response);
 	}
-	
+
 	private boolean isPathInWhiteList(String requestPath) {
-		//bisogna controllare che se il path risulta proprio "" oppure se 
-		//siamo in presenza un url 'libero'
-		if(requestPath.equals(HOME_PATH))
+		// bisogna controllare che se il path risulta proprio "" oppure se
+		// siamo in presenza un url 'libero'
+		if (requestPath.equals(HOME_PATH))
 			return true;
-		
+
 		for (String urlPatternItem : EXCLUDED_URLS) {
 			if (requestPath.contains(urlPatternItem)) {
 				return true;
@@ -73,9 +87,27 @@ public class CheckAuthFilter implements Filter {
 		}
 		return false;
 	}
-	
+
 	private boolean isPathForOnlyAdministrators(String requestPath) {
 		for (String urlPatternItem : PROTECTED_URLS) {
+			if (requestPath.contains(urlPatternItem)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isPathForOnlyPizzaiolo(String requestPath) {
+		for (String urlPatternItem : PROTECTED_URLS_PIZZAIOLO) {
+			if (requestPath.contains(urlPatternItem)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isPathForOnlyFattorino(String requestPath) {
+		for (String urlPatternItem : PROTECTED_URLS_FATTORINO) {
 			if (requestPath.contains(urlPatternItem)) {
 				return true;
 			}

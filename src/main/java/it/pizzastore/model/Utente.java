@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,7 +27,9 @@ public class Utente {
 	private Long id;
 	private String nome;
 	private String cognome;
+	@Column(unique = true, nullable = false)
 	private String username;
+	@Column(nullable = false)
 	private String password;
 	@Temporal(TemporalType.DATE)
 	private Date dataRegistrazione;

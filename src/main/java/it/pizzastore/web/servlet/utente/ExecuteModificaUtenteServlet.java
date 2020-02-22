@@ -83,6 +83,10 @@ public class ExecuteModificaUtenteServlet extends HttpServlet {
 
 		// verifica se ci sono errori, in caso ritorna indietro
 		List<String> utenteErrors = utenteDTO.errors();
+		Utente utenteConStessoUsername = utenteService.cercaDaUsername(utenteDTO.getUsername());
+		if (utenteConStessoUsername != null && utenteConStessoUsername.getId() != utenteDTO.getId()) {
+			utenteErrors.add("username non disponibile");
+		}
 		if (!utenteErrors.isEmpty()) {
 			utenteDTO.setRuoli(idRuoliInputChecked);
 			request.setAttribute("utenteAttr", utenteDTO);
