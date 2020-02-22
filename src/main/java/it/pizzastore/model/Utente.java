@@ -110,4 +110,28 @@ public class Utente {
 		this.ruoli = ruoli;
 	}
 
+	public boolean isAdmin() {
+		for (Ruolo ruoloItem : ruoli) {
+			if (ruoloItem.getCodice().equals(CodiceRuolo.ADMIN_ROLE))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isPizzaiolo() {
+		for (Ruolo ruoloItem : ruoli) {
+			if (ruoloItem.getCodice().equals(CodiceRuolo.PIZZAIOLO_ROLE))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isFattorino() {
+		for (Ruolo ruoloItem : ruoli) {
+			if (ruoloItem.getCodice().equals(CodiceRuolo.FATTORINO_ROLE))
+				return true;
+		}
+		return false;
+	}
+
 }
