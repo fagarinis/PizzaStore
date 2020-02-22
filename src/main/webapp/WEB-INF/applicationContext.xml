@@ -17,10 +17,10 @@
 		">
 	
 	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans -->
-	<context:component-scan base-package="it.prova.gestionemunicipiospringdatamaven" />
+	<context:component-scan base-package="it.pizzastore" />
 	<!-- Activates various annotations to be detected in bean classes e.g: @Autowired -->
 	<context:annotation-config />
-	<jpa:repositories base-package="it.prova.gestionemunicipiospringdatamaven.repository"/>
+	<jpa:repositories base-package="it.pizzastore.repository"/>
 	
 	<!-- #################################################################### -->
 	<!-- ########### IMPOSTAZIONI PER USARE JPA E TRANSACTION ############### -->
@@ -28,13 +28,13 @@
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/gestionemunicipiospringdatamaven?useSSL=false&amp;serverTimezone=UTC" />
+		<property name="url" value="jdbc:mysql://localhost:3306/pizzastore?useSSL=false&amp;serverTimezone=UTC" />
 		<property name="username" value="root" />
 		<property name="password" value="rootroot.1" />
 	</bean>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-			p:packagesToScan="it.prova.gestionemunicipiospringdatamaven.model"
+			p:packagesToScan="it.pizzastore.model"
             p:dataSource-ref="dataSource"
 			>
 		<property name="jpaVendorAdapter">
