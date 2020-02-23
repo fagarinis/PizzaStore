@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import it.pizzastore.dto.PizzaDTO;
+import it.pizzastore.model.Ingrediente;
 import it.pizzastore.model.Pizza;
+import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.PizzaService;
 
 /**
@@ -21,6 +24,9 @@ import it.pizzastore.service.PizzaService;
 @WebServlet("/pizzaiolo/pizze/PrepareModificaPizzaServlet")
 public class PrepareModificaPizzaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private IngredienteService ingredienteService;
 
 	@Autowired
 	private PizzaService pizzaService;
@@ -39,7 +45,15 @@ public class PrepareModificaPizzaServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String idPizza = request.getParameter("idPizza");
 		Pizza result = pizzaService.caricaSingolaPizzaConIngredienti(Long.parseLong(idPizza));
-
+		
+		String[] idIngredientiChecked = new String[result.getIngredienti().size()];
+		int i = 0;
+		for(Ingrediente ingrediente: result.getIngredienti()) {
+			idIngredientiChecked[i++] = ingrediente.getId().toString();
+		}
+		
+		request.setAttribute("listaIngredientiCheckedAttr", idIngredientiChecked);
+		request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
 		request.setAttribute("pizzaAttr", result);
 		request.getRequestDispatcher("/pizzaiolo/pizze/modifica.jsp").forward(request, response);
 	}

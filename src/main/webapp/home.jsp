@@ -41,7 +41,7 @@
     	 <div class="jumbotron">
       		<div class="container">
        	 		<h1 class="display-4"> Gestione Ordini</h1>
-       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/PrepareSearchOrdineServlet" role="button">Vai alla Gestione &raquo;</a></p>
+       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/ordini/PrepareSearchOrdineServlet" role="button">Vai alla Gestione &raquo;</a></p>
      	 	</div>
      	 </div>
      
@@ -49,14 +49,14 @@
        	 <div class="jumbotron">
       		<div class="container">
        	 		<h1 class="display-4"> Gestione Clienti</h1>
-       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/PrepareSearchClienteServlet" role="button">Vai alla Gestione &raquo;</a></p>
+       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/clienti/PrepareSearchClienteServlet" role="button">Vai alla Gestione &raquo;</a></p>
      	 	</div>
      	 </div>
      	 
      	 <div class="jumbotron">
       		<div class="container">
        	 		<h1 class="display-4"> Gestione Pizze</h1>
-       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/PrepareSearchPizzaServlet" role="button">Vai alla Gestione &raquo;</a></p>
+       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareSearchPizzaServlet" role="button">Vai alla Gestione &raquo;</a></p>
      	 	</div>
      	 </div>
      	 
@@ -70,7 +70,7 @@
      	 
      	 <div class="form-group">        
 		      <div class="col-sm-offset-2 col-sm-10">
-		        <a href="${pageContext.request.contextPath}/pizzaiolo/PrepareInsertOrdineServlet" class="btn btn-primary btn-md">Nuovo Ordine</a>
+		        <a href="${pageContext.request.contextPath}/pizzaiolo/ordini/PrepareInsertOrdineServlet" class="btn btn-primary btn-md">Nuovo Ordine</a>
 		      </div>
 		 </div>
 		 

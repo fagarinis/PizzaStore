@@ -29,7 +29,7 @@
 				<tr>
 					<th>Codice</th>
 					<th>Descrizione</th>
-					<th>Prezzo</th>
+					<th>Disponibilità</th>
 					
 					<th>Action</th>
 				</tr>
@@ -37,17 +37,17 @@
 			
 			<tbody>
 			
-				<c:forEach var="ingredienteItem" items="${listaIngredientiAttr }">
+				<c:forEach var="pizzaItem" items="${listaPizzeAttr }">
 					<tr>
-						<td>${ingredienteItem.codice }</td>
-						<td>${ingredienteItem.descrizione }</td>
-						<td>${ingredienteItem.prezzo } &euro;</td>
+						<td>${pizzaItem.codice }</td>
+						<td>${pizzaItem.descrizione }</td>
+						<td>${pizzaItem.isAttivo()? 'Disponibile' : 'Non Disponibile' }</td>
 						<td><a
-							href="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteDettaglioIngredienteServlet?idIngrediente=${ingredienteItem.id}"
+							href="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteDettaglioPizzaServlet?idPizza=${pizzaItem.id}"
 							class="btn btn-info">Dettaglio</a> <a
-							href="${pageContext.request.contextPath}/pizzaiolo/ingredienti/PrepareModificaIngredienteServlet?idIngrediente=${ingredienteItem.id}"
+							href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareModificaPizzaServlet?idPizza=${pizzaItem.id}"
 							class="btn btn-info">Modifica</a> <a
-							href="${pageContext.request.contextPath}/pizzaiolo/ingredienti/PrepareEliminaIngredienteServlet?idIngrediente=${ingredienteItem.id}"
+							href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareEliminaPizzaServlet?idPizza=${pizzaItem.id}"
 							class="btn btn-info">Elimina</a>
 					</tr>
 				</c:forEach>
@@ -58,9 +58,9 @@
 			<div class="col-sm-offset-2 col-sm-10">
 		
 				<!-- Nuova ricerca -->
-				<a	href="${pageContext.request.contextPath}/pizzaiolo/ingredienti/PrepareSearchIngredienteServlet" class="btn btn-primary btn-md">Nuova Ricerca</a>
+				<a	href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareSearchPizzaServlet" class="btn btn-primary btn-md">Nuova Ricerca</a>
 				<!-- Inserisci nuovo -->
-		        <a href="${pageContext.request.contextPath}/pizzaiolo/ingredienti/PrepareInsertIngredienteServlet" class="btn btn-primary btn-md">Inserisci Nuovo Ingrediente</a>
+		        <a href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareInsertPizzaServlet" class="btn btn-primary btn-md">Inserisci Nuova Pizza</a>
 		      
 		      </div>
 		</div>

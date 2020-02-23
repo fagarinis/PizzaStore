@@ -14,7 +14,7 @@
    <%@ include file="../../header.jsp" %>
       
     <div class="page-header">
-	  <h3>Pagina di Ricerca Utente</h3>
+	  <h3>Pagina di Ricerca Ingredienti</h3>
 	</div>
 	
 	<div class="alert alert-success ${messaggioConferma==null?'d-none':''}" role="alert">

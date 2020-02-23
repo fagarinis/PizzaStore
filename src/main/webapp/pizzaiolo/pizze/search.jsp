@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Ricerca Ingrediente</title>
+<title>Ricerca Pizza</title>
 </head>
 <body>
 
@@ -14,14 +14,14 @@
    <%@ include file="../../header.jsp" %>
       
     <div class="page-header">
-	  <h3>Pagina di Ricerca Utente</h3>
+	  <h3>Pagina di Ricerca Pizze</h3>
 	</div>
 	
 	<div class="alert alert-success ${messaggioConferma==null?'d-none':''}" role="alert">
 	  ${messaggioConferma }
 	</div>
 
-      	<form class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteSearchIngredienteServlet" method="post">
+      	<form class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteSearchPizzaServlet" method="post">
       		<div class="form-group">
       			<label class="control-label col-sm-2" for="codiceInputId">Codice:</label>
 	    		<div class="col-sm-4">
@@ -35,9 +35,20 @@
 			 	</div>
   			</div>
 			<div class="form-group">
-      			<label class="control-label col-sm-2" for="prezzoInputId">Prezzo:</label>
+      			<label class="control-label col-sm-2" for="prezzoInputId">Prezzo Base:</label>
 	    		<div class="col-sm-4">
-					<input class="form-control" type='number' step='0.01' id="prezzoInputId" name="prezzoInput" >
+					<input class="form-control" type='number' step='0.01' id="prezzoBaseInputId" name="prezzoInput" >
+			 	</div>
+  			</div>
+  			
+  			<div class="form-group">
+      			<label class="control-label col-sm-2" for="attivoInputId">Disponibilità:</label>
+	    		<div class="col-sm-4">
+	    		<select name = attivoInput id = "attivoInputId">
+	    			<option selected></option>
+	    			<option value = "true"> Disponibile</option>
+	    			<option value = "false"> Non Disponibile</option>
+	    		</select>
 			 	</div>
   			</div>
   			
@@ -48,7 +59,7 @@
   			<div class="form-group">        
 		      <div class="col-sm-offset-2 col-sm-10">
 		        <button type="submit" class="btn btn-primary btn-md">Effettua Ricerca</button>
-		        <a href="${pageContext.request.contextPath}/pizzaiolo/ingredienti/PrepareInsertIngredienteServlet" class="btn btn-primary btn-md">Inserisci Nuovo Ingrediente</a>
+		        <a href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareInsertPizzaServlet" class="btn btn-primary btn-md">Inserisci Nuova Pizza</a>
 		      </div>
 		    </div>
 		</form>

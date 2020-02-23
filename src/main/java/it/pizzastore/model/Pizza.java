@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,8 @@ public class Pizza {
 	private String descrizione;
 	private String codice;
 	private BigDecimal prezzoBase;
-	private boolean attivo = true;
+	@Column(nullable = false)
+	private Boolean attivo;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	@JoinTable(name = "pizza_ingrediente", joinColumns = @JoinColumn(name = "pizza_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id", referencedColumnName = "ID"))
@@ -71,11 +73,11 @@ public class Pizza {
 		this.prezzoBase = prezzoBase;
 	}
 
-	public boolean isAttivo() {
+	public Boolean isAttivo() {
 		return attivo;
 	}
 
-	public void setAttivo(boolean attivo) {
+	public void setAttivo(Boolean attivo) {
 		this.attivo = attivo;
 	}
 
@@ -95,7 +97,7 @@ public class Pizza {
 		this.ordini = ordini;
 	}
 
-	public BigDecimal calcolaPrezzo() {
+	public BigDecimal getPrezzo() {
 		BigDecimal result = this.prezzoBase;
 		for (Ingrediente ingrediente : ingredienti) {
 			result = result.add(ingrediente.getPrezzo());

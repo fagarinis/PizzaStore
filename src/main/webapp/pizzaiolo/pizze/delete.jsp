@@ -33,10 +33,30 @@
 					<dd class="col-sm-9">${pizzaAttr.descrizione }</dd>
 				</dl>
 				<dl class="row">
-					<dt class="col-sm-3 text-right">Prezzo</dt>
-					<dd class="col-sm-9">${pizzaAttr.prezzo }</dd>
+					<dt class="col-sm-3 text-right">Prezzo Base</dt>
+					<dd class="col-sm-9">${pizzaAttr.prezzoBase } &euro;</dd>
 				</dl>
-			</div>
+				
+				<dl class="row">
+					<dt class="col-sm-3 text-right">Prezzo Totale</dt>
+					<dd class="col-sm-9">${pizzaAttr.getPrezzo() } &euro;</dd>
+				</dl>
+				
+				<dl class="row">
+					<dt class="col-sm-3 text-right">Ingredienti</dt>
+					<dd class="col-sm-9">
+					<c:forEach var="ingredienteItem" items="${pizzaAttr.ingredienti }">
+						<li>${ingredienteItem.descrizione }<br>
+					</c:forEach>
+					
+					</dd>
+				</dl>
+				
+				<dl class="row">
+					<dt class="col-sm-3 text-right">Disponibile</dt>
+					<dd class="col-sm-9">${pizzaAttr.isAttivo()? 'Sì' : 'No' }</dd>
+				</dl>
+
 
 			<input type=hidden name="idPizza" value="${pizzaAttr.id }">
 			

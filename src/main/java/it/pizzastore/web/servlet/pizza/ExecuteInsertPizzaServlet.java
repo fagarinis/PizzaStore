@@ -15,6 +15,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pizzastore.dto.PizzaDTO;
 import it.pizzastore.model.Pizza;
+import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.PizzaService;
 
 @WebServlet("/pizzaiolo/pizze/ExecuteInsertPizzaServlet")
@@ -23,6 +24,9 @@ public class ExecuteInsertPizzaServlet extends HttpServlet {
 
 	@Autowired
 	private PizzaService pizzaService;
+	
+	@Autowired
+	private IngredienteService ingredienteService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -46,20 +50,22 @@ public class ExecuteInsertPizzaServlet extends HttpServlet {
 		String codiceInput = request.getParameter("codiceInput");
 		String prezzoBaseInput = request.getParameter("prezzoBaseInput");
 		String attivoInput = request.getParameter("attivoInput");
-		String[] idIngredientiInput = request.getParameterValues("idIngredientiInput");
+		String[] idIngredientiInput = request.getParameterValues("ingredienteInput");
 
 		PizzaDTO pizzaDTO = new PizzaDTO();
 		pizzaDTO.setDescrizione(descrizioneInput);
 		pizzaDTO.setCodice(codiceInput);
 		pizzaDTO.setPrezzoBase(prezzoBaseInput);
 		pizzaDTO.setIngredienti(idIngredientiInput);
-//		pizzaDTO.setAttivo(attivoInput);
+		pizzaDTO.setAttivo(attivoInput);
 		
 		// effettuo la validazione dell'input e se non va bene rimando in pagina
 		List<String> pizzaErrors = pizzaDTO.errors();
 		if (!pizzaErrors.isEmpty()) {
 			request.setAttribute("pizzaAttr", pizzaDTO);
 			request.setAttribute("pizzaErrors", pizzaErrors);
+			request.setAttribute("listaIngredientiCheckedAttr", pizzaDTO.getIdIngredienti());
+			request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
 			request.getRequestDispatcher("/pizzaiolo/pizze/insert.jsp").forward(request, response);
 			return;
 		}

@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.dto.IngredienteDTO;
 import it.pizzastore.dto.PizzaDTO;
-import it.pizzastore.model.Ingrediente;
 import it.pizzastore.model.Pizza;
 import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.PizzaService;
@@ -27,6 +25,9 @@ import it.pizzastore.service.PizzaService;
 public class ExecuteModificaPizzaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	private IngredienteService ingredienteService;
+	
 	@Autowired
 	private PizzaService pizzaService;
 	
@@ -52,7 +53,7 @@ public class ExecuteModificaPizzaServlet extends HttpServlet {
 		String codiceInput = request.getParameter("codiceInput");
 		String prezzoBaseInput = request.getParameter("prezzoBaseInput");
 		String attivoInput = request.getParameter("attivoInput");
-		String[] idIngredientiInput = request.getParameterValues("idIngredientiInput");
+		String[] idIngredientiInput = request.getParameterValues("ingredienteInput");
 
 		PizzaDTO pizzaDTO = new PizzaDTO();
 		pizzaDTO.setId(Long.parseLong(idInput));
@@ -60,18 +61,20 @@ public class ExecuteModificaPizzaServlet extends HttpServlet {
 		pizzaDTO.setCodice(codiceInput);
 		pizzaDTO.setPrezzoBase(prezzoBaseInput);
 		pizzaDTO.setIngredienti(idIngredientiInput);
-//		pizzaDTO.setAttivo(attivoInput);
+		pizzaDTO.setAttivo(attivoInput);
 
 		List<String> pizzaErrors = pizzaDTO.errors();
 		if (!pizzaErrors.isEmpty()) {
 			request.setAttribute("pizzaAttr", pizzaDTO);
 			request.setAttribute("pizzaErrors", pizzaErrors);
+			request.setAttribute("listaIngredientiCheckedAttr", pizzaDTO.getIdIngredienti());
+			request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
 			request.getRequestDispatcher("/pizzaiolo/pizze/modifica.jsp").forward(request, response);
 			return;
 		}
 
 		Pizza pizzaInstance = PizzaDTO.buildModelFromDto(pizzaDTO);
-		pizzaService.aggiorna(pizzaInstance);
+		pizzaService.aggiornaConIngredienti(pizzaInstance);
 
 		request.setAttribute("messaggioConferma", "Modifica avvenuta con successo");
 		request.setAttribute("listaPizzeAttr", pizzaService.listAll());

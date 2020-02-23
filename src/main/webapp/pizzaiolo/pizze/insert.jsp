@@ -6,8 +6,10 @@
 <head>
 
 
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Inserisci Ingrediente</title>
+<title>Inserisci Pizza</title>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jqueryUI/jquery-ui.min.css" />
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon" />
 </head>
 <body>
@@ -17,12 +19,12 @@
    <%@ include file="../../header.jsp" %>
       
     <div class="page-header">
-	  <h3>Pagina di Inserimento Ingrediente</h3>
+	  <h3>Pagina di Inserimento Pizza</h3>
 	</div>
 	
 	<%-- alert con lista errori --%>
-	<div class="alert alert-danger ${not empty ingredienteErrors?'':'d-none' }" role="alert">
-		<c:forEach var = "errorItem" items="${ingredienteErrors }">
+	<div class="alert alert-danger ${not empty pizzaErrors?'':'d-none' }" role="alert">
+		<c:forEach var = "errorItem" items="${pizzaErrors }">
         	<ul>
 				<li> ${errorItem }</li>	
 			</ul>
@@ -33,13 +35,13 @@
 
 
 		<!-- da implementare onsubmit ="return validateIngredienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteInsertIngredienteServlet" method="post">
+      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteInsertPizzaServlet" method="post">
       	
       		<div class="form-group">
       			<label class="control-label col-sm-2" for="codiceInputId">Codice:</label>
 	    		<div class="col-sm-4">
 					<input class="form-control" type="text" id="codiceInputId" name="codiceInput" 
-					value = "${ingredienteAttr.codice}">
+					value = "${pizzaAttr.codice}">
 			 	</div>
   			</div>
   			
@@ -47,16 +49,51 @@
       			<label class="control-label col-sm-2" for="descrizioneInputId">Descrizione:</label>
 	    		<div class="col-sm-4">
 					<input class="form-control" type="text" id="descrizioneInputId" name="descrizioneInput" 
-					value = "${ingredienteAttr.descrizione}">
+					value = "${pizzaAttr.descrizione}">
 			 	</div>
   			</div>
 			<div class="form-group">
-      			<label class="control-label col-sm-2" for="prezzoInputId">Prezzo:</label>
+      			<label class="control-label col-sm-2" for="prezzoBaseInputId">Prezzo Base:</label>
 	    		<div class="col-sm-4">
-					<input class="form-control" type='number' step='0.01'   id="prezzoInputId" name="prezzoInput" 
-					value = "${ingredienteAttr.prezzo}">
+					<input onkeyup ="updatePrezzoTotale()" class="form-control" type='number' step='0.01'   id="prezzoBaseInputId" name="prezzoBaseInput" 
+					value = "${pizzaAttr.prezzoBase}">
 			 	</div>
   			</div>
+  			<div class="form-group">
+      			<label class="control-label col-sm-2" for="prezzoTotaleInputId">Prezzo Totale:</label>
+	    		<div class="col-sm-4">
+					<input readonly class="form-control" type='number' step='0.01'   id="prezzoTotaleInputId" name="prezzoTotaleInput" >
+			 	</div>
+  			</div>
+  			
+  			<div class="form-group">
+      			<label class="control-label col-sm-2" for="ingredientiInputId">Ingredienti:</label>
+	    		<div class="col-sm-4">
+	    			<c:forEach var = "ingredienteItem" items ="${ingredientiListAttr}">
+	    			
+	    				<c:forEach var ="pizzaIngredienteItem" items ="${pizzaAttr.ingredienti}">
+	    					<c:if test="${ingredienteItem.id == pizzaIngredienteItem.id}">
+	    						<c:set var = "check" value ="yes"/>
+	    					</c:if>
+	    				</c:forEach>
+	    			
+						<input onclick="updatePrezzoTotale()" <c:if test="${check =='yes'}">checked="checked"</c:if> type="checkbox" id="ingredienteInputId" name="ingredienteInput" data-prezzo="${ingredienteItem.prezzo}" value ="${ingredienteItem.id}"> ${ingredienteItem.descrizione} +${ingredienteItem.prezzo} &euro; 
+						<br>
+						<c:set var = "check" value ="no"/>
+					</c:forEach>
+			 	</div>
+  			</div>
+  			
+  			<div class="form-group">
+      			<label class="control-label col-sm-2" for="attivoInputId">Disponibilità:</label>
+	    		<div class="col-sm-4">
+	    		<select name = attivoInput id = "attivoInputId">
+	    			<option value = "true"> Disponibile</option>
+	    			<option value = "false"> Non Disponibile</option>
+	    		</select>
+			 	</div>
+  			</div>
+  			
   			
   			<div class="form-group">        
 		      <div class="col-sm-offset-2 col-sm-10">
@@ -70,7 +107,7 @@
 		
     </div><!-- /.container -->
 
-
+<script src="prezzoTotale.js"></script>
 
 </body>
 </html>

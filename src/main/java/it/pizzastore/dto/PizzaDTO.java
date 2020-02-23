@@ -2,6 +2,7 @@ package it.pizzastore.dto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,10 +19,12 @@ public class PizzaDTO {
 	private String descrizione;
 	private String codice;
 	private BigDecimal prezzoBase;
-	private boolean attivo = true;
+	private Boolean attivo;
 
 	private Set<Ingrediente> ingredienti = new HashSet<>();
 	private Set<Ordine> ordini = new HashSet<>();
+
+	private List<String> idIngredienti = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -62,11 +65,11 @@ public class PizzaDTO {
 		}
 	}
 
-	public boolean isAttivo() {
+	public Boolean isAttivo() {
 		return attivo;
 	}
 
-	public void setAttivo(boolean attivo) {
+	public void setAttivo(Boolean attivo) {
 		this.attivo = attivo;
 	}
 
@@ -88,8 +91,11 @@ public class PizzaDTO {
 
 	public void setIngredienti(String[] idIngredienti) {
 		if (idIngredienti == null) {
+			this.getIdIngredienti().clear();
 			return;
 		}
+		this.setIdIngredienti(Arrays.asList(idIngredienti));
+
 		for (String idIngrediente : idIngredienti) {
 			this.ingredienti.add(new Ingrediente(Long.parseLong(idIngrediente)));
 		}
@@ -117,9 +123,6 @@ public class PizzaDTO {
 		if (this.prezzoBase == null || this.prezzoBase.compareTo(BigDecimal.ZERO) == -1) {
 			result.add("il campo Prezzo non è valido");
 		}
-		if (this.getIngredienti().size() == 0) {
-			result.add("selezionare gli ingredienti");
-		}
 
 		return result;
 	}
@@ -137,6 +140,27 @@ public class PizzaDTO {
 		result.setAttivo(pizzaDTO.isAttivo());
 
 		return result;
+	}
+
+	public List<String> getIdIngredienti() {
+		return idIngredienti;
+	}
+
+	public void setIdIngredienti(List<String> idIngredienti) {
+		this.idIngredienti = idIngredienti;
+	}
+
+	public void setAttivo(String attivo) {
+		if (attivo.equalsIgnoreCase("true") || attivo.equalsIgnoreCase("false")) {
+			this.attivo = Boolean.valueOf(attivo);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "PizzaDTO [id=" + id + ", descrizione=" + descrizione + ", codice=" + codice + ", prezzoBase="
+				+ prezzoBase + ", attivo=" + attivo + ", ingredienti=" + ingredienti + ", ordini=" + ordini
+				+ ", idIngredienti=" + idIngredienti + "]";
 	}
 
 }

@@ -1,6 +1,9 @@
 package it.pizzastore.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -9,12 +12,17 @@ import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.pizzastore.model.Ingrediente;
 import it.pizzastore.model.Pizza;
+import it.pizzastore.repository.IngredienteRepository;
 import it.pizzastore.repository.PizzaRepository;
 
 @Service
 public class PizzaServiceImpl implements PizzaService {
 
+	@Autowired
+	IngredienteRepository ingredienteRepository;
+	
 	@Autowired
 	PizzaRepository pizzaRepository;
 
@@ -60,6 +68,22 @@ public class PizzaServiceImpl implements PizzaService {
 	@Override
 	public Pizza caricaSingolaPizzaConIngredienti(Long id) {
 		return pizzaRepository.findByIdWithIngredients(id);
+	}
+
+	@Transactional
+	@Override
+	public void aggiornaConIngredienti(Pizza pizzaInstance) {
+		List<Long> idIngredienti = new ArrayList<>();
+		for(Ingrediente ingrediente: pizzaInstance.getIngredienti()) {
+			idIngredienti.add(ingrediente.getId());
+		}
+		
+		List<Ingrediente> ingredientiPersistList = (List<Ingrediente>) ingredienteRepository.findAllById(idIngredienti);
+		Set<Ingrediente> ingredientiPersist = ingredientiPersistList.stream().collect(Collectors.toSet());
+		
+		Pizza pizzaPersist = pizzaRepository.findById(pizzaInstance.getId()).orElse(null);
+		
+		pizzaPersist.setIngredienti(ingredientiPersist);
 	}
 
 }

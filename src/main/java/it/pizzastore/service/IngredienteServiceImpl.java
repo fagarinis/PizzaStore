@@ -1,6 +1,7 @@
 package it.pizzastore.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -54,6 +55,12 @@ public class IngredienteServiceImpl implements IngredienteService {
 		ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(StringMatcher.CONTAINING);
 		// Match string containing pattern .withIgnoreCase();
 		return (List<Ingrediente>) ingredienteRepository.findAll(Example.of(example, matcher));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Set<Ingrediente> cercaIngredientiDaIdPizza(Long idPizza) {
+		return ingredienteRepository.findByIdPizza(idPizza);
 	}
 
 }
