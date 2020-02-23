@@ -23,7 +23,7 @@ public class Cliente {
 	private String civico;
 	private String telefono;
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
-	private boolean attivo = false;
+	private boolean attivo = true;
 
 	@OneToMany(mappedBy = "cliente", orphanRemoval = true)
 	private Set<Ordine> ordini = new HashSet<>();
@@ -32,6 +32,14 @@ public class Cliente {
 	}
 
 	public Cliente(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
 		this.id = id;
 	}
 

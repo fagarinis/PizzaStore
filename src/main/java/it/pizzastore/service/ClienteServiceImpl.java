@@ -26,6 +26,14 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Transactional(readOnly = true)
 	@Override
+	public List<Cliente> listAllActive() {
+		Cliente example = new Cliente();
+		example.setAttivo(true);
+		return findByExample(example);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
 	public Cliente caricaSingolo(Long id) {
 		return clienteRepository.findById(id).orElse(null);
 	}
@@ -54,6 +62,15 @@ public class ClienteServiceImpl implements ClienteService {
 		ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(StringMatcher.CONTAINING);
 		// Match string containing pattern .withIgnoreCase();
 		return (List<Cliente>) clienteRepository.findAll(Example.of(example, matcher));
+	}
+
+	@Transactional
+	@Override
+	public void disattiva(Cliente cliente) {
+		Cliente clienteDaDisattivare = clienteRepository.findById(cliente.getId()).orElse(null);
+		if (clienteDaDisattivare != null) {
+			clienteDaDisattivare.setAttivo(false);
+		}
 	}
 
 }
