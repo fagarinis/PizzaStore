@@ -36,7 +36,7 @@
 				
 				<dl class="row">
 					<dt class="col-sm-3 text-right">Prezzo Totale</dt>
-					<dd class="col-sm-9">${pizzaAttr.getPrezzo() } &euro;</dd>
+					<dd class="col-sm-9">${pizzaPrezzoTotaleAttr } &euro;</dd>
 				</dl>
 				
 				<dl class="row">

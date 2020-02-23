@@ -1,5 +1,6 @@
 package it.pizzastore.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class PizzaServiceImpl implements PizzaService {
 
 	@Autowired
 	IngredienteRepository ingredienteRepository;
-	
+
 	@Autowired
 	PizzaRepository pizzaRepository;
 
@@ -73,17 +74,31 @@ public class PizzaServiceImpl implements PizzaService {
 	@Transactional
 	@Override
 	public void aggiornaConIngredienti(Pizza pizzaInstance) {
+		
 		List<Long> idIngredienti = new ArrayList<>();
-		for(Ingrediente ingrediente: pizzaInstance.getIngredienti()) {
+		
+		for (Ingrediente ingrediente : pizzaInstance.getIngredienti()) {
 			idIngredienti.add(ingrediente.getId());
 		}
-		
+
 		List<Ingrediente> ingredientiPersistList = (List<Ingrediente>) ingredienteRepository.findAllById(idIngredienti);
 		Set<Ingrediente> ingredientiPersist = ingredientiPersistList.stream().collect(Collectors.toSet());
 		
-		Pizza pizzaPersist = pizzaRepository.findById(pizzaInstance.getId()).orElse(null);
-		
-		pizzaPersist.setIngredienti(ingredientiPersist);
+		pizzaInstance.setIngredienti(ingredientiPersist);
+		this.aggiorna(pizzaInstance);
+
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BigDecimal calcolaPrezzoPizza(Pizza pizzaInstance) {
+		Pizza pizzaPersist = pizzaRepository.findByIdWithIngredients(pizzaInstance.getId());
+		BigDecimal prezzoPizza = pizzaPersist.getPrezzoBase();
+		for (Ingrediente ingrediente : pizzaPersist.getIngredienti()) {
+			prezzoPizza = prezzoPizza.add(ingrediente.getPrezzo());
+		}
+
+		return prezzoPizza;
 	}
 
 }

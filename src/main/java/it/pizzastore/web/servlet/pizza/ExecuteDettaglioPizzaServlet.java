@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import it.pizzastore.model.Pizza;
 import it.pizzastore.service.PizzaService;
-
 
 /**
  * Servlet implementation class ExecuteDettaglioMunicipioServlet
@@ -45,8 +45,11 @@ public class ExecuteDettaglioPizzaServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String idInput = request.getParameter("idPizza");
-		request.setAttribute("pizzaAttr",
-				pizzaService.caricaSingolaPizzaConIngredienti(Long.parseLong(idInput)));
+		Pizza pizzaAttr = pizzaService.caricaSingolaPizzaConIngredienti(Long.parseLong(idInput));
+		
+		request.setAttribute("pizzaAttr", pizzaAttr);
+		request.setAttribute("pizzaPrezzoTotaleAttr", pizzaService.calcolaPrezzoPizza(pizzaAttr));
+		
 		request.getRequestDispatcher("/pizzaiolo/pizze/dettaglio.jsp").forward(request, response);
 	}
 

@@ -93,7 +93,8 @@
   			
   			<div class="form-group">        
 		      <div class="col-sm-offset-2 col-sm-10">
-		        <button type="submit" class="btn btn-primary btn-md">Conferma</button>
+		      Attenzione: la pizza verrà modificata anche dagli ordini precedenti!
+		        <button type="submit" class="btn btn-primary btn-md">Conferma Modifica</button>
 		      </div>
 		    </div>
 		</form>

@@ -59,6 +59,9 @@ public class PrepareEliminaPizzaServlet extends HttpServlet {
 			idIngredientiChecked[i++] = ingrediente.getId().toString();
 		}
 		
+		
+		request.setAttribute("pizzaPrezzoTotaleAttr", pizzaService.calcolaPrezzoPizza(pizzaDaCancellare));
+		
 		request.setAttribute("listaIngredientiCheckedAttr", idIngredientiChecked);
 		request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
 		request.setAttribute("pizzaAttr", pizzaDaCancellare);

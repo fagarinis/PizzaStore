@@ -39,7 +39,7 @@
 				
 				<dl class="row">
 					<dt class="col-sm-3 text-right">Prezzo Totale</dt>
-					<dd class="col-sm-9">${pizzaAttr.getPrezzo() } &euro;</dd>
+					<dd class="col-sm-9">${pizzaPrezzoTotaleAttr } &euro;</dd>
 				</dl>
 				
 				<dl class="row">
@@ -61,6 +61,7 @@
 			<input type=hidden name="idPizza" value="${pizzaAttr.id }">
 			
 			<div class="form-group">
+				Attenzione: la pizza verrà cancellata anche dagli ordini precedenti!
 				<div class="col-sm-offset-2 col-sm-10">
 				<a href="javascript:history.back()" class="btn btn-primary btn-md">Torna
 						Indietro</a>
