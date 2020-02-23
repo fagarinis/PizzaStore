@@ -35,9 +35,9 @@
 			 	</div>
   			</div>
 			<div class="form-group">
-      			<label class="control-label col-sm-2" for="prezzoInputId">Prezzo Base:</label>
+      			<label class="control-label col-sm-2" for="prezzoBaseInputId">Prezzo Base:</label>
 	    		<div class="col-sm-4">
-					<input class="form-control" type='number' step='0.01' id="prezzoBaseInputId" name="prezzoInput" >
+					<input class="form-control" type='number' step='0.01' id="prezzoBaseInputId" name="prezzoBaseInput" >
 			 	</div>
   			</div>
   			
