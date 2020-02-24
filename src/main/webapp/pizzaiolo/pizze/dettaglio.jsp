@@ -49,14 +49,6 @@
 					</dd>
 				</dl>
 				
-				<dl class="row">
-					<dt class="col-sm-3 text-right">Disponibile</dt>
-					<dd class="col-sm-9">${pizzaAttr.isAttivo()? 'Sì' : 'No' }</dd>
-				</dl>
-
-
-
-
 
 			<a href="javascript:history.back()" class="btn btn-primary btn-md">Torna
 				Indietro</a>

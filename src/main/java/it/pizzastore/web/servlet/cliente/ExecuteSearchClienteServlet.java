@@ -2,7 +2,6 @@ package it.pizzastore.web.servlet.cliente;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,13 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.dto.PizzaDTO;
 import it.pizzastore.model.Cliente;
-import it.pizzastore.model.Ingrediente;
-import it.pizzastore.model.Pizza;
 import it.pizzastore.service.ClienteService;
-import it.pizzastore.service.IngredienteService;
-import it.pizzastore.service.PizzaService;
 
 @WebServlet("/pizzaiolo/clienti/ExecuteSearchClienteServlet")
 public class ExecuteSearchClienteServlet extends HttpServlet {

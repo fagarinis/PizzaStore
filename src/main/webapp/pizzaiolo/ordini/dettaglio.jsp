@@ -4,22 +4,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="ISO-8859-1">
-<title>Cancella Pizza</title>
+<title>Dettaglio Ingrediente</title>
 </head>
 <body>
 	<div class="container">
-	
 		<%@ include file="../../header.jsp"%>
 
 		<div class="page-header">
-			<h3>Pagina di Cancellazione</h3>
+			<h3>Pagina di Dettaglio</h3>
 		</div>
 
-
-		<form action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteEliminaPizzaServlet" method="post">
-			<div class="container-fluid">
+		<div class="container-fluid">
+		
 				<dl class="row">
 					<dt class="col-sm-3 text-right">Id</dt>
 					<dd class="col-sm-9">${pizzaAttr.id }</dd>
@@ -52,20 +49,20 @@
 					</dd>
 				</dl>
 				
+				<dl class="row">
+					<dt class="col-sm-3 text-right">Disponibile</dt>
+					<dd class="col-sm-9">${pizzaAttr.isAttivo()? 'Sì' : 'No' }</dd>
+				</dl>
 
 
-			<input type=hidden name="idPizza" value="${pizzaAttr.id }">
-			
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-				<a href="javascript:history.back()" class="btn btn-primary btn-md">Torna
-						Indietro</a>
-					<button  type="submit" class="btn btn-primary btn-md">Conferma Cancellazione</button>
-					
-				</div>
-			</div>
+
+
+
+			<a href="javascript:history.back()" class="btn btn-primary btn-md">Torna
+				Indietro</a>
+
 			<%@ include file="../../footer.jsp"%>
-		</form>
+		</div>
 	</div>
 
 </body>

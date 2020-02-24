@@ -1,4 +1,4 @@
-package it.pizzastore.web.servlet.pizza;
+package it.pizzastore.web.servlet.ordine;
 
 import java.io.IOException;
 
@@ -13,14 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pizzastore.dto.PizzaDTO;
+import it.pizzastore.service.OrdineService;
 import it.pizzastore.service.PizzaService;
 
-@WebServlet("/pizzaiolo/pizze/ExecuteSearchPizzaServlet")
-public class ExecuteSearchPizzaServlet extends HttpServlet {
+@WebServlet("/pizzaiolo/ordini/ExecuteSearchOrdineServlet")
+public class ExecuteSearchOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private PizzaService pizzaService;
+	private OrdineService ordineService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -28,7 +29,7 @@ public class ExecuteSearchPizzaServlet extends HttpServlet {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	public ExecuteSearchPizzaServlet() {
+	public ExecuteSearchOrdineServlet() {
 		super();
 	}
 
@@ -48,12 +49,10 @@ public class ExecuteSearchPizzaServlet extends HttpServlet {
 		example.setDescrizione(descrizioneInput);
 		example.setCodice(codiceInput);
 		example.setPrezzoBase(prezzoBaseInput);
-		
-		//questo per far apparire in ricerca solo le pizze attive
-		example.setAttivo(true);
+		example.setAttivo(attivoInput);
 		
 		request.setAttribute("listaPizzeAttr", pizzaService.findByExample(PizzaDTO.buildModelFromDto(example)));
-		request.getRequestDispatcher("/pizzaiolo/pizze/result.jsp").forward(request, response);
+		request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp").forward(request, response);
 	}
 
 }

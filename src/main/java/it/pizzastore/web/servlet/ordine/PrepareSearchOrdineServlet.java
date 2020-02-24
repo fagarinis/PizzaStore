@@ -1,4 +1,4 @@
-package it.pizzastore.web.servlet.cliente;
+package it.pizzastore.web.servlet.ordine;
 
 import java.io.IOException;
 
@@ -12,37 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Cliente;
-import it.pizzastore.service.ClienteService;
+import it.pizzastore.service.OrdineService;
 
-/**
- * Servlet implementation class PrepareModificaMunicipioServlet
- */
-@WebServlet("/pizzaiolo/clienti/PrepareModificaClienteServlet")
-public class PrepareModificaClienteServlet extends HttpServlet {
+@WebServlet("/pizzaiolo/ordini/PrepareSearchOrdineServlet")
+public class PrepareSearchOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private ClienteService clienteService;
-
+	private OrdineService ordineService;
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
-
-	public PrepareModificaClienteServlet() {
+	
+	public PrepareSearchOrdineServlet() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String idCliente = request.getParameter("idCliente");
-		Cliente result = clienteService.caricaSingolo(Long.parseLong(idCliente));
-		
-		
-		request.setAttribute("clienteAttr", result);
-		request.getRequestDispatcher("/pizzaiolo/clienti/modifica.jsp").forward(request, response);
+		request.getRequestDispatcher("/pizzaiolo/ordini/search.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -84,15 +84,6 @@
 			 	</div>
   			</div>
   			
-  			<div class="form-group">
-      			<label class="control-label col-sm-2" for="attivoInputId">Disponibilità:</label>
-	    		<div class="col-sm-4">
-	    		<select name = attivoInput id = "attivoInputId">
-	    			<option value = "true"> Disponibile</option>
-	    			<option value = "false"> Non Disponibile</option>
-	    		</select>
-			 	</div>
-  			</div>
   			
   			
   			<div class="form-group">        

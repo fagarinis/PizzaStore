@@ -1,4 +1,4 @@
-package it.pizzastore.web.servlet.pizza;
+package it.pizzastore.web.servlet.ordine;
 
 import java.io.IOException;
 
@@ -15,20 +15,18 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import it.pizzastore.model.Ingrediente;
 import it.pizzastore.model.Pizza;
 import it.pizzastore.service.IngredienteService;
+import it.pizzastore.service.OrdineService;
 import it.pizzastore.service.PizzaService;
 
 /**
  * Servlet implementation class PrepareModificaMunicipioServlet
  */
-@WebServlet("/pizzaiolo/pizze/PrepareModificaPizzaServlet")
-public class PrepareModificaPizzaServlet extends HttpServlet {
+@WebServlet("/pizzaiolo/ordini/PrepareModificaOrdineServlet")
+public class PrepareModificaOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private IngredienteService ingredienteService;
-
-	@Autowired
-	private PizzaService pizzaService;
+	private OrdineService ordineService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -36,7 +34,7 @@ public class PrepareModificaPizzaServlet extends HttpServlet {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	public PrepareModificaPizzaServlet() {
+	public PrepareModificaOrdineServlet() {
 		super();
 	}
 
@@ -54,7 +52,7 @@ public class PrepareModificaPizzaServlet extends HttpServlet {
 		request.setAttribute("listaIngredientiCheckedAttr", idIngredientiChecked);
 		request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
 		request.setAttribute("pizzaAttr", result);
-		request.getRequestDispatcher("/pizzaiolo/pizze/modifica.jsp").forward(request, response);
+		request.getRequestDispatcher("/pizzaiolo/ordini/modifica.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -14,12 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pizzastore.dto.ClienteDTO;
-import it.pizzastore.dto.PizzaDTO;
 import it.pizzastore.model.Cliente;
-import it.pizzastore.model.Pizza;
 import it.pizzastore.service.ClienteService;
-import it.pizzastore.service.IngredienteService;
-import it.pizzastore.service.PizzaService;
 
 @WebServlet("/pizzaiolo/clienti/ExecuteInsertClienteServlet")
 public class ExecuteInsertClienteServlet extends HttpServlet {

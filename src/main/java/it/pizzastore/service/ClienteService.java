@@ -10,4 +10,6 @@ public interface ClienteService extends IBaseService<Cliente> {
 
 	public void disattiva(Cliente cliente);
 
+	public List<Cliente> cercaByCognomeLike(String term);
+
 }

@@ -101,4 +101,19 @@ public class PizzaServiceImpl implements PizzaService {
 		return prezzoPizza;
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public List<Pizza> listAllActiveEager() {
+		return pizzaRepository.findAllActiveEager();
+	}
+	
+	@Transactional
+	@Override
+	public void disattiva(Pizza pizza) {
+		Pizza pizzaDaDisattivare = pizzaRepository.findById(pizza.getId()).orElse(null);
+		if (pizzaDaDisattivare != null) {
+			pizzaDaDisattivare.setAttivo(false);
+		}
+	}
+
 }

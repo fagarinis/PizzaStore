@@ -29,6 +29,7 @@
 				<tr>
 					<th>Codice</th>
 					<th>Descrizione</th>
+					<th>Disponibilità</th>
 					
 					<th>Action</th>
 				</tr>
@@ -38,14 +39,9 @@
 			
 				<c:forEach var="pizzaItem" items="${listaPizzeAttr }">
 					<tr>
-						<td>
-							<c:if test="${!pizzaItem.isAttivo()}"><del>${pizzaItem.codice }</del></c:if>
-							<c:if test="${pizzaItem.isAttivo()}">${pizzaItem.codice }</c:if></td>
-						<td>
-							<c:if test="${!pizzaItem.isAttivo()}"><del>${pizzaItem.descrizione }</del></c:if>
-							<c:if test="${pizzaItem.isAttivo()}">${pizzaItem.descrizione }</c:if>
-						</td>
-						
+						<td>${pizzaItem.codice }</td>
+						<td>${pizzaItem.descrizione }</td>
+						<td>${pizzaItem.isAttivo()? 'Disponibile' : 'Non Disponibile' }</td>
 						<td><a
 							href="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteDettaglioPizzaServlet?idPizza=${pizzaItem.id}"
 							class="btn btn-info">Dettaglio</a> <a

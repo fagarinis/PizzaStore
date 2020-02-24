@@ -81,9 +81,19 @@
 			 	</div>
   			</div>
   			
+  			<div class="form-group">
+      			<label class="control-label col-sm-2" for="attivoInputId">Disponibilità:</label>
+	    		<div class="col-sm-4">
+	    		<select name = attivoInput id = "attivoInputId">
+	    			<option value = "true"> Disponibile</option>
+	    			<option <c:if test="${!pizzaAttr.isAttivo()}"> selected </c:if>value = "false"> Non Disponibile</option>
+	    		</select>
+			 	</div>
+  			</div>
   			
   			<div class="form-group">        
 		      <div class="col-sm-offset-2 col-sm-10">
+		      Attenzione: la pizza verrà modificata anche dagli ordini precedenti!
 		        <button type="submit" class="btn btn-primary btn-md">Conferma Modifica</button>
 		      </div>
 		    </div>

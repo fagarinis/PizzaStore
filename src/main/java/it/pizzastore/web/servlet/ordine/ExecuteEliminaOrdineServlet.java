@@ -1,7 +1,8 @@
-package it.pizzastore.web.servlet.cliente;
+package it.pizzastore.web.servlet.ordine;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,18 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Cliente;
-import it.pizzastore.service.ClienteService;
+import it.pizzastore.model.Pizza;
+import it.pizzastore.service.OrdineService;
+import it.pizzastore.service.PizzaService;
 
 /**
- * Servlet implementation class ExecuteDettaglioMunicipioServlet
+ * Servlet implementation class ExecuteEliminaMunicipioServlet
  */
-@WebServlet("/pizzaiolo/clienti/ExecuteDettaglioClienteServlet")
-public class ExecuteDettaglioClienteServlet extends HttpServlet {
+@WebServlet("/pizzaiolo/ordini/ExecuteEliminaOrdineServlet")
+public class ExecuteEliminaOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private ClienteService clienteService;
+	private OrdineService ordineService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -34,7 +36,7 @@ public class ExecuteDettaglioClienteServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ExecuteDettaglioClienteServlet() {
+	public ExecuteEliminaOrdineServlet() {
 		super();
 	}
 
@@ -44,12 +46,6 @@ public class ExecuteDettaglioClienteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String idInput = request.getParameter("idCliente");
-		Cliente clienteAttr = clienteService.caricaSingolo(Long.parseLong(idInput));
-		
-		request.setAttribute("clienteAttr", clienteAttr);
-		
-		request.getRequestDispatcher("/pizzaiolo/clienti/dettaglio.jsp").forward(request, response);
 	}
 
 	/**
@@ -58,6 +54,16 @@ public class ExecuteDettaglioClienteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Long id = Long.parseLong(request.getParameter("idPizza"));
+
+		pizzaService.rimuovi(new Pizza(id));
+
+		request.setAttribute("listaPizzeAttr", pizzaService.listAll());
+		request.setAttribute("messaggioConferma", "Cancellazione avvenuta con successo");
+
+		RequestDispatcher rd = request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp");
+		rd.forward(request, response);
+
 	}
 
 }

@@ -73,4 +73,13 @@ public class ClienteServiceImpl implements ClienteService {
 		}
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public List<Cliente> cercaByCognomeLike(String cognome) {
+		Cliente example = new Cliente();
+		example.setCognome(cognome);
+		example.setAttivo(true);
+		return this.findByExample(example);
+	}
+
 }
