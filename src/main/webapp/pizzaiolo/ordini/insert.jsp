@@ -45,10 +45,41 @@
       			<label class="control-label col-sm-2" for="dataInputId">Data:</label>
 	    		<div class="col-sm-4">
 					<input readonly class="form-control" type="date" id="dataInputId" name="dataInput" 
-					value = "${ordineAttr.data}">
+					>
 			 	</div>
   			</div>
   			
+  			
+  			
+  			<div class="form-group">
+				<label class="control-label col-sm-2" for="clienteInputId">Cliente:</label>
+				<div class="col-sm-4">
+				<!-- variabili hidden dell'ultima selezione corretta di cliente -->
+					<input readonly type="text" name="clienteId" id="clienteId" value ="${ordineAttr.cliente.id}">
+					<input readonly type="text" name="clienteNome" id="clienteNomeId" value ="${ordineAttr.cliente.cognome}<c:if test="${ordineAttr.cliente != null}"> </c:if>${ordineAttr.cliente.nome}">
+				
+				<!-- visibile -->
+					<input oninput ="new svuotaCampiCliente()" class="form-control" type="text" id="clienteInputId"
+						name="clienteInput" value ="${ordineAttr.cliente.cognome}<c:if test="${ordineAttr.cliente != null}"> </c:if>${ordineAttr.cliente.nome}">
+						
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="clienteInputId">Fattorino:</label>
+				<div class="col-sm-4">
+				<!-- variabili hidden dell'ultima selezione corretta di fattorino -->
+					<input readonly type="text" name="fattorinoId" id="fattorinoId" value ="${ordineAttr.utente.id}">
+					<input readonly type="text" name="fattorinoNome" id="fattorinoNomeId" value ="${ordineAttr.utente.cognome}<c:if test="${ordineAttr.utente != null}"> </c:if>${ordineAttr.utente.nome}">
+				
+				<!-- visibile -->
+					<input oninput ="new svuotaCampiFattorino()" class="form-control" type="text" id="fattorinoInputId"
+						name="fattorinoInput" value ="${ordineAttr.utente.cognome}<c:if test="${ordineAttr.utente != null}"> </c:if>${ordineAttr.utente.nome}">
+						
+				</div>
+			</div>
+			
+			
   			<div class="form-group">
       			<label class="control-label col-sm-2" for="prezzoTotaleInputId">Prezzo Totale:</label>
 	    		<div class="col-sm-4">
@@ -56,22 +87,8 @@
 			 	</div>
   			</div>
   			
-  			
-  			<div class="form-group">
-				<label class="control-label col-sm-2" for="clienteInputId">Cliente:</label>
-				<div class="col-sm-4">
-				<!-- variabili hidden dell'ultima selezione corretta di municipio -->
-					<input readonly type="text" name="clienteId" id="clienteId" value ="${ordine.cliente.id}">
-					<input readonly type="text" name="clienteNome" id="clienteNomeId" value ="${ordine.cliente.cognome} ${ordine.cliente.nome}">
-				
-				<!-- c'era oninput ="new svuotaCampiCliente()" sul tag input sotto-->
-					<input oninput ="new svuotaCampiCliente()" class="form-control" type="text" id="clienteInputId"
-						name="clienteInput" value ="">
-						
-				</div>
-			</div>
-  			
-  			
+  			<!-- Checkbox di pizze -->
+  			<c:set var = "i" value = "${0}"/>
   			<div class="form-group">
       			<label class="control-label col-sm-2" for="pizzeInputId">Pizze:</label>
 	    		<div class="col-sm-4">
@@ -84,11 +101,16 @@
 	    				</c:forEach>
 	    			
 						<input 
-						onclick="updatePrezzoTotaleOrdine()" <c:if test="${check =='yes'}">checked="checked"</c:if> 
-						type="checkbox" id="pizzaInputId" name="pizzaInput" data-prezzo="${pizzaItem.getPrezzo()}" 
+						onclick="updateInputNumberPizza('${i}'); updatePrezzoTotaleOrdine(); " <c:if test="${check =='yes'}">checked="checked"</c:if> 
+						type="checkbox" id="pizzaInputId" name="pizzaInput" data-i ="${i}" data-prezzo="${pizzaItem.getPrezzo()}" 
 						value ="${pizzaItem.id}"
-						>  <input type="number" min="1" max="500" style="width: 3em;" id="numeroPizzaId" name="numeroPizza" >
-						${pizzaItem.descrizione} +${pizzaItem.getPrezzo()} &euro; <br>
+						>  
+						
+						<input oninput="updateCheckboxPizza('${i}'); updatePrezzoTotaleOrdine();" data-i ="${i}" type="number" min="1"  pattern="[0-9]" style="width: 3em;" id="numeroPizzaId" name="numeroPizza" >
+							${pizzaItem.descrizione} +${pizzaItem.getPrezzo()} &euro; <br>
+							
+							
+						<c:set var="i" value="${i + 1}"/>
 						<c:set var = "check" value ="no"/>
 					</c:forEach>
 			 	</div>

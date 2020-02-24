@@ -64,7 +64,6 @@ public class ExecuteSearchUtenteServlet extends HttpServlet {
 		utenteExample.setCognome(cognomeInput);
 		utenteExample.setUsername(usernameInput);
 		try {
-			System.out.println(statoInput);
 			utenteExample.setStato(StatoUtente.valueOf(statoInput));
 			
 		} catch(Exception e) {

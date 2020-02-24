@@ -1,5 +1,7 @@
 package it.pizzastore.service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.pizzastore.model.Ordine;
+import it.pizzastore.model.Pizza;
 import it.pizzastore.repository.OrdineRepository;
 
 @Service
 public class OrdineServiceImpl implements OrdineService {
-	
+
 	@Autowired
-	OrdineRepository ordineRepository;
+	private OrdineRepository ordineRepository;
+
+	@Autowired
+	private PizzaService pizzaService;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -39,6 +45,16 @@ public class OrdineServiceImpl implements OrdineService {
 	@Transactional
 	@Override
 	public void inserisciNuovo(Ordine o) {
+		BigDecimal costoOrdineTotale = BigDecimal.ZERO;
+		for (Pizza pizza : o.getPizze()) {
+			Pizza pizzaInOrdine = pizzaService.caricaSingolaPizzaConIngredienti(pizza.getId());
+			BigDecimal costoPizza = pizzaInOrdine.getPrezzo();
+			costoOrdineTotale = costoOrdineTotale.add(costoPizza);
+		}
+
+		o.setCostoTotale(costoOrdineTotale);
+		o.setClosed(false);
+		o.setData(new Date());
 		ordineRepository.save(o);
 	}
 

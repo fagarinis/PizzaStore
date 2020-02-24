@@ -9,6 +9,7 @@ import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.pizzastore.model.CodiceRuolo;
 import it.pizzastore.model.Ruolo;
 import it.pizzastore.model.StatoUtente;
 import it.pizzastore.model.Utente;
@@ -86,6 +87,12 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public Utente cercaDaUsername(String username) {
 		return repository.findByUsername(username);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<Utente> cercaUtentiByCodiceRuoloAndCognomeLike(CodiceRuolo codiceRuolo, String cognome) {
+		return repository.findUsersByRoleCodeAndSurnameLike(codiceRuolo, cognome);
 	}
 
 }
