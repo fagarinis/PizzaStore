@@ -55,9 +55,11 @@ public class CheckAuthFilter implements Filter {
 				httpRequest.getRequestDispatcher("/home.jsp").forward(httpRequest, httpResponse);
 				return;
 			}
-			// controllo che utente abbia ruolo pizzaiolo se nel path risulta presente
+			// controllo che utente abbia ruolo pizzaiolo (o admin, l'ho inserito per
+			// permettergli di usare ExecuteDettaglioOrdineServlet
+			// da report ordini) se nel path risulta presente
 			// /pizzaiolo/
-			if (isPathForOnlyPizzaiolo(pathAttuale) && !utenteInSession.isPizzaiolo()) {
+			if (isPathForOnlyPizzaiolo(pathAttuale) && !utenteInSession.isPizzaiolo() && !utenteInSession.isAdmin()) {
 				httpRequest.setAttribute("messaggio", "Non si è autorizzati alla navigazione richiesta");
 				httpRequest.getRequestDispatcher("/home.jsp").forward(httpRequest, httpResponse);
 				return;

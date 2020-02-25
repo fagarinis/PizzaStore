@@ -59,7 +59,6 @@ public class ExecuteModificaOrdineServlet extends HttpServlet {
 		// binding
 		String idInput = request.getParameter("idInput");
 		String codiceInput = request.getParameter("codiceInput");
-		String dataInput = request.getParameter("dataInput");
 		String clienteId = request.getParameter("clienteId");
 		String fattorinoId = request.getParameter("fattorinoId");
 		String[] idPizzeInput = request.getParameterValues("pizzaInput");
@@ -68,7 +67,6 @@ public class ExecuteModificaOrdineServlet extends HttpServlet {
 		OrdineDTO ordineDTO = new OrdineDTO();
 		ordineDTO.setId(Long.parseLong(idInput));
 		ordineDTO.setCodice(codiceInput);
-		ordineDTO.setData(dataInput);
 		ordineDTO.setCliente(clienteId);
 		ordineDTO.setUtente(fattorinoId);
 		ordineDTO.setPizze(idPizzeInput, numeroPizzeInput);

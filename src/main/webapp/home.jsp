@@ -30,7 +30,7 @@
      	 <div class="jumbotron">
       		<div class="container">
        	 		<h1 class="display-4">(Admin) Report Ordini</h1>
-       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/admin/PrepareSearchOrdineServlet" role="button">Visualizza Report &raquo;</a></p>
+       	 		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/admin/reportordini/PrepareSearchReportOrdineServlet" role="button">Visualizza Report &raquo;</a></p>
      	 	</div>
      	 </div>
      	 
@@ -101,7 +101,7 @@
 						<td>${ordineItem.costoTotale } &euro;</td>
 						<td>${ordineItem.isClosed()? 'Chiuso' : 'Aperto' }</td>
 						<td><a
-							href="${pageContext.request.contextPath}/ExecuteChiudiOrdineServlet?idOrdine=${ordineItem.id}"
+							href="${pageContext.request.contextPath}/fattorino/ExecuteChiudiOrdineServlet?idOrdine=${ordineItem.id}"
 							class="btn btn-info">Chiudi Ordine</a> 
 					</tr>
 				</c:forEach>

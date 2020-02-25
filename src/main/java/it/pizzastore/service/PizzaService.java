@@ -17,4 +17,6 @@ public interface PizzaService extends IBaseService<Pizza> {
 	
 	public void disattiva(Pizza pizza);
 
+	public List<Pizza> cercaByDescrizioneLike(String term);
+
 }

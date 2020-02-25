@@ -1,4 +1,4 @@
-package it.pizzastore.web.servlet.cliente;
+package it.pizzastore.web.servlet.pizza;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,15 +17,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import it.pizzastore.model.Cliente;
-import it.pizzastore.service.ClienteService;
+import it.pizzastore.model.Pizza;
+import it.pizzastore.service.PizzaService;
 
-@WebServlet("/SearchClienteAjaxServlet")
-public class SearchClienteAjaxServlet extends HttpServlet {
+@WebServlet("/SearchPizzaAjaxServlet")
+public class SearchPizzaAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private ClienteService clienteService;
+	private PizzaService pizzaService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -33,7 +33,7 @@ public class SearchClienteAjaxServlet extends HttpServlet {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	public SearchClienteAjaxServlet() {
+	public SearchPizzaAjaxServlet() {
 		super();
 	}
 
@@ -44,8 +44,8 @@ public class SearchClienteAjaxServlet extends HttpServlet {
 
 		String term = request.getParameter("term");
 
-		List<Cliente> listaClientiByTerm = clienteService.cercaByCognomeLike(term);
-		String json = buildJsonResponse(listaClientiByTerm);
+		List<Pizza> listaPizzaByTerm = pizzaService.cercaByDescrizioneLike(term);
+		String json = buildJsonResponse(listaPizzaByTerm);
 		response.getWriter().write(json);
 	}
 
@@ -53,13 +53,12 @@ public class SearchClienteAjaxServlet extends HttpServlet {
 			throws ServletException, IOException {
 	}
 
-	private String buildJsonResponse(List<Cliente> listaClienti) {
+	private String buildJsonResponse(List<Pizza> listaPizze) {
 		JsonArray ja = new JsonArray();
-		for (Cliente clienteElement : listaClienti) {
+		for (Pizza pizzaElement : listaPizze) {
 			JsonObject jo = new JsonObject();
-			jo.addProperty("value", clienteElement.getId());
-			jo.addProperty("label", clienteElement.getCognome());
-			jo.addProperty("name", clienteElement.getNome());
+			jo.addProperty("value", pizzaElement.getId());
+			jo.addProperty("label", pizzaElement.getDescrizione());
 			ja.add(jo);
 		}
 		

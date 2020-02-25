@@ -157,4 +157,20 @@ public class OrdineServiceImpl implements OrdineService {
 		}
 	}
 
+	@Override
+	public List<Ordine> cercaDaDataEIdPizzaEIdCliente(String simpleData, Long idPizza, Long idCliente) {
+		String query = "select distinct o from Ordine o left join o.pizze p left join o.cliente c where 1 = 1 ";
+
+		if (simpleData != null)
+			query += " and o.data like '%" + simpleData + "%' ";
+		if (idPizza != null)
+			query += " and p.id =" + idPizza + " ";
+		if (idCliente != null)
+			query += " and c.id =" + idCliente + " ";
+
+		query += "ORDER BY o.data";
+
+		return entityManager.createQuery(query, Ordine.class).getResultList();
+	}
+
 }

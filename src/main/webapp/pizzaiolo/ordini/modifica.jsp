@@ -42,14 +42,6 @@
 			 	</div>
   			</div>
   			
-  			<div class="form-group">
-      			<label class="control-label col-sm-2" for="dataInputId">Data:</label>
-	    		<div class="col-sm-4">
-					<input readonly class="form-control" type="date" id="dataInputId" name="dataInput" 
-					>
-			 	</div>
-  			</div>
-  			
   			
   			
   			<div class="form-group">

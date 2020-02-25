@@ -131,4 +131,10 @@ public class Ordine {
 		return numeroPizze;
 	}
 
+	@Override
+	public String toString() {
+		return "Ordine [id=" + id + ", data=" + data + ", closed=" + closed + ", codice=" + codice + ", costoTotale="
+				+ costoTotale + ", pizze=" + pizze + ", utente=" + utente + ", cliente=" + cliente + "]";
+	}
+
 }

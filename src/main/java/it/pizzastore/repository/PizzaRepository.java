@@ -16,4 +16,5 @@ public interface PizzaRepository extends CrudRepository<Pizza, Long>, QueryByExa
 	@Query("select distinct p from Pizza p left join fetch p.ingredienti i where p.attivo = 1")
 	List<Pizza> findAllActiveEager();
 
+	List<Pizza> findByDescrizioneContaining(String term);
 }

@@ -115,5 +115,11 @@ public class PizzaServiceImpl implements PizzaService {
 			pizzaDaDisattivare.setAttivo(false);
 		}
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Pizza> cercaByDescrizioneLike(String term) {
+		return pizzaRepository.findByDescrizioneContaining(term);
+	}
 
 }

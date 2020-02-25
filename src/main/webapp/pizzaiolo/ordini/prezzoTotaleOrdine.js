@@ -129,7 +129,7 @@ function getCheckedBoxes(chkboxName) {
 $( "#clienteInputId" ).autocomplete({
 	 source: function(request, response) {
 	        $.ajax({
-	            url: "SearchClienteAjaxServlet",
+	            url: "/PizzaStore/SearchClienteAjaxServlet",
 	            datatype: "json",
 	            data: {
 	                term: request.term,   
@@ -212,7 +212,11 @@ $( "#fattorinoInputId" ).autocomplete({
 
 // aggiornamento del prezzo totale quando carica la pagina
 $(document).ready(function() {
+	updatePrezzoTotaleOrdine();
 
-	document.getElementById('dataInputId').value = new Date().toISOString().substring(0, 10);
-	return updatePrezzoTotaleOrdine();
+	if(document.getElementById('dataInputId') != null){
+		document.getElementById('dataInputId').value = new Date().toISOString().substring(0, 10);
+	}
+	
+	return 
 });

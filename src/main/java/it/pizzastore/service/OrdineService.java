@@ -18,4 +18,6 @@ public interface OrdineService extends IBaseService<Ordine> {
 	public List<Ordine> listAllOrdiniAttiviUtenteOrdinaPerData(Long fattorinoId);
 
 	public void chiudiOrdine(Long idOrdine);
+
+	public List<Ordine> cercaDaDataEIdPizzaEIdCliente(String simpleData, Long idPizza, Long idCliente);
 }

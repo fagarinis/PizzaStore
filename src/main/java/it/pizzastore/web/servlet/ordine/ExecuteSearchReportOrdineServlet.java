@@ -2,26 +2,25 @@ package it.pizzastore.web.servlet.ordine;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Utente;
+import it.pizzastore.dto.OrdineDTO;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.service.OrdineService;
 
 /**
- * Servlet implementation class ExecuteChiudiOrdineServlet
+ * Servlet implementation class ExecuteSearchReportOrdineServlet
  */
-@WebServlet("/fattorino/ExecuteChiudiOrdineServlet")
-public class ExecuteChiudiOrdineServlet extends HttpServlet {
+@WebServlet("/admin/reportordini/ExecuteSearchReportOrdineServlet")
+public class ExecuteSearchReportOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
@@ -36,7 +35,7 @@ public class ExecuteChiudiOrdineServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ExecuteChiudiOrdineServlet() {
+	public ExecuteSearchReportOrdineServlet() {
 		super();
 	}
 
@@ -46,21 +45,6 @@ public class ExecuteChiudiOrdineServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Utente utenteInSessione = (Utente) session.getAttribute("userInfo");
-
-		Long idOrdine = Long.parseLong(request.getParameter("idOrdine"));
-
-		if (utenteInSessione.isFattorino()) {
-			ordineService.chiudiOrdine(idOrdine);
-
-			// prepara la lista ordini dell'utente fattorino
-			request.setAttribute("listaOrdiniAttr",
-					ordineService.listAllOrdiniAttiviUtenteOrdinaPerData(utenteInSessione.getId()));
-		}
-
-		RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
-		rd.forward(request, response);
 	}
 
 	/**
@@ -69,6 +53,31 @@ public class ExecuteChiudiOrdineServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		String dataInput = request.getParameter("dataInput");
+		String clienteId = request.getParameter("clienteId");
+		String pizzaId = request.getParameter("pizzaId");
+
+		OrdineDTO example = new OrdineDTO();
+		example.setData(dataInput);
+		Boolean closed = null;
+		example.setClosed(closed);
+
+		Ordine exampleOrdine = OrdineDTO.buildModelFromDto(example);
+		Long idCliente = null;
+		Long idPizza = null;
+
+		try {
+			idCliente = Long.parseLong(clienteId);
+		} catch (Exception e) {
+		}
+		try {
+			idPizza = Long.parseLong(pizzaId);
+		} catch (Exception e) {
+		}
+
+		request.setAttribute("listaOrdiniAttr", ordineService.cercaDaDataEIdPizzaEIdCliente(exampleOrdine.getSimpleData(),idPizza, idCliente));
+		request.getRequestDispatcher("/admin/reportordini/result.jsp").forward(request, response);
 	}
 
 }
