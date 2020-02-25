@@ -12,9 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Pizza;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.service.OrdineService;
-import it.pizzastore.service.PizzaService;
 
 /**
  * Servlet implementation class ExecuteDettaglioMunicipioServlet
@@ -45,12 +44,10 @@ public class ExecuteDettaglioOrdineServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String idInput = request.getParameter("idPizza");
-		Pizza pizzaAttr = pizzaService.caricaSingolaPizzaConIngredienti(Long.parseLong(idInput));
+		String idInput = request.getParameter("idOrdine");
+		Ordine ordineAttr = ordineService.caricaSingoloEager(Long.parseLong(idInput));
 		
-		request.setAttribute("pizzaAttr", pizzaAttr);
-		request.setAttribute("pizzaPrezzoTotaleAttr", pizzaService.calcolaPrezzoPizza(pizzaAttr));
-		
+		request.setAttribute("ordineAttr", ordineAttr);
 		request.getRequestDispatcher("/pizzaiolo/ordini/dettaglio.jsp").forward(request, response);
 	}
 

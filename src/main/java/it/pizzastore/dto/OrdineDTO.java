@@ -19,8 +19,9 @@ public class OrdineDTO {
 
 	private Long id;
 	private Date data;
-	private boolean closed = false;
+	private Boolean closed = false;
 	private String codice;
+	private BigDecimal costoTotale;
 
 	private List<Pizza> pizze = new ArrayList<>();
 
@@ -48,11 +49,11 @@ public class OrdineDTO {
 		this.data = data;
 	}
 
-	public boolean isClosed() {
+	public Boolean isClosed() {
 		return closed;
 	}
 
-	public void setClosed(boolean closed) {
+	public void setClosed(Boolean closed) {
 		this.closed = closed;
 	}
 
@@ -62,6 +63,21 @@ public class OrdineDTO {
 
 	public void setCodice(String codice) {
 		this.codice = codice;
+	}
+
+	public BigDecimal getCostoTotale() {
+		return costoTotale;
+	}
+
+	public void setCostoTotale(BigDecimal costoTotale) {
+		this.costoTotale = costoTotale;
+	}
+
+	public void setCostoTotale(String costoTotale) {
+		try {
+			this.setCostoTotale(new BigDecimal(costoTotale));
+		} catch (Exception e) {
+		}
 	}
 
 	public List<Pizza> getPizze() {
@@ -125,7 +141,6 @@ public class OrdineDTO {
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd").parse(dataInput);
 		} catch (ParseException e) {
-			e.printStackTrace();
 		}
 		this.setData(date);
 	}
@@ -172,7 +187,7 @@ public class OrdineDTO {
 
 		return result;
 	}
-	
+
 	public static Ordine buildModelFromDto(OrdineDTO ordineDTO) {
 		Ordine result = new Ordine();
 
@@ -183,8 +198,24 @@ public class OrdineDTO {
 		result.setUtente(ordineDTO.getUtente());
 		result.setCliente(ordineDTO.getCliente());
 		result.setClosed(ordineDTO.isClosed());
+		
+		result.setCostoTotale(ordineDTO.getCostoTotale());
 
 		return result;
+	}
+
+	public void setClosed(String chiusoInput) {
+		Boolean booleanNullo = null;
+		if (chiusoInput == null) {
+
+			this.setClosed(booleanNullo);
+		}
+
+		if (chiusoInput.equalsIgnoreCase("true") || chiusoInput.equalsIgnoreCase("false")) {
+			this.setClosed(Boolean.parseBoolean(chiusoInput));
+		} else {
+			this.setClosed(booleanNullo);
+		}
 	}
 
 }

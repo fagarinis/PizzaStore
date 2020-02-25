@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pizzastore.model.Ingrediente;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.model.Pizza;
 import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.OrdineService;
@@ -27,6 +28,9 @@ public class PrepareModificaOrdineServlet extends HttpServlet {
 
 	@Autowired
 	private OrdineService ordineService;
+	
+	@Autowired
+	private PizzaService pizzaService;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -40,18 +44,18 @@ public class PrepareModificaOrdineServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String idPizza = request.getParameter("idPizza");
-		Pizza result = pizzaService.caricaSingolaPizzaConIngredienti(Long.parseLong(idPizza));
-		
-		String[] idIngredientiChecked = new String[result.getIngredienti().size()];
-		int i = 0;
-		for(Ingrediente ingrediente: result.getIngredienti()) {
-			idIngredientiChecked[i++] = ingrediente.getId().toString();
+		String idInput = request.getParameter("idOrdine");
+		Ordine ordineAttr = ordineService.caricaSingoloEager(Long.parseLong(idInput));
+
+		if (ordineAttr.isClosed()) {
+			request.setAttribute("messaggioErrore", "Non è possibile modificare un ordine chiuso");
+			request.setAttribute("listaOrdiniAttr", ordineService.listAll());
+			request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp").forward(request, response);
+			return;
 		}
 		
-		request.setAttribute("listaIngredientiCheckedAttr", idIngredientiChecked);
-		request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
-		request.setAttribute("pizzaAttr", result);
+		request.setAttribute("pizzeListAttr", pizzaService.listAllActiveEager());
+		request.setAttribute("ordineAttr", ordineAttr);
 		request.getRequestDispatcher("/pizzaiolo/ordini/modifica.jsp").forward(request, response);
 	}
 

@@ -23,13 +23,18 @@
 		<div
 			class="alert alert-success ${messaggioConferma!=null?'':'d-none' }"
 			role="alert">${messaggioConferma }</div>
+			
+		<%-- alert Errore --%>
+		<div
+			class="alert alert-success ${messaggioErrore!=null?'':'d-none' }"
+			role="alert">${messaggioErrore }</div>
 
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Codice</th>
-					<th>Descrizione</th>
-					<th>Disponibilità</th>
+					<th>Costo Totale</th>
+					<th>Stato Ordine</th>
 					
 					<th>Action</th>
 				</tr>
@@ -37,18 +42,21 @@
 			
 			<tbody>
 			
-				<c:forEach var="pizzaItem" items="${listaPizzeAttr }">
+				<c:forEach var="ordineItem" items="${listaOrdiniAttr }">
 					<tr>
-						<td>${pizzaItem.codice }</td>
-						<td>${pizzaItem.descrizione }</td>
-						<td>${pizzaItem.isAttivo()? 'Disponibile' : 'Non Disponibile' }</td>
+						<td>${ordineItem.codice }</td>
+						<td>${ordineItem.costoTotale } &euro;</td>
+						<td>${ordineItem.isClosed()? 'Chiuso' : 'Aperto' }</td>
 						<td><a
-							href="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteDettaglioPizzaServlet?idPizza=${pizzaItem.id}"
-							class="btn btn-info">Dettaglio</a> <a
-							href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareModificaPizzaServlet?idPizza=${pizzaItem.id}"
+							href="${pageContext.request.contextPath}/pizzaiolo/ordini/ExecuteDettaglioOrdineServlet?idOrdine=${ordineItem.id}"
+							class="btn btn-info">Dettaglio</a> 
+							<c:if test="${!ordineItem.isClosed() }">
+							<a
+							href="${pageContext.request.contextPath}/pizzaiolo/ordini/PrepareModificaOrdineServlet?idOrdine=${ordineItem.id}"
 							class="btn btn-info">Modifica</a> <a
-							href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareEliminaPizzaServlet?idPizza=${pizzaItem.id}"
+							href="${pageContext.request.contextPath}/pizzaiolo/ordini/PrepareEliminaOrdineServlet?idOrdine=${ordineItem.id}"
 							class="btn btn-info">Elimina</a>
+							</c:if>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -58,9 +66,9 @@
 			<div class="col-sm-offset-2 col-sm-10">
 		
 				<!-- Nuova ricerca -->
-				<a	href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareSearchPizzaServlet" class="btn btn-primary btn-md">Nuova Ricerca</a>
+				<a	href="${pageContext.request.contextPath}/pizzaiolo/ordini/PrepareSearchOrdineServlet" class="btn btn-primary btn-md">Nuova Ricerca</a>
 				<!-- Inserisci nuovo -->
-		        <a href="${pageContext.request.contextPath}/pizzaiolo/pizze/PrepareInsertPizzaServlet" class="btn btn-primary btn-md">Inserisci Nuova Pizza</a>
+		        <a href="${pageContext.request.contextPath}/pizzaiolo/ordini/PrepareInsertOrdineServlet" class="btn btn-primary btn-md">Inserisci Nuovo Ordine</a>
 		      
 		      </div>
 		</div>

@@ -30,7 +30,7 @@
 			 	</div>
   			</div>
   			<div class="form-group">
-      			<label class="control-label col-sm-2" for="costoTotaleInputId">Descrizione:</label>
+      			<label class="control-label col-sm-2" for="costoTotaleInputId">Costo Totale:</label>
 	    		<div class="col-sm-4">
 					<input class="form-control" type="text" id="costoTotaleInputId" name="costoTotaleInput" >
 			 	</div>

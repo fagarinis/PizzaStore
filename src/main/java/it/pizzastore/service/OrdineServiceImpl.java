@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -18,6 +22,12 @@ import it.pizzastore.repository.OrdineRepository;
 @Service
 public class OrdineServiceImpl implements OrdineService {
 
+	// questo mi serve per il findByExample2 che risulta 'a mano'
+	// o comunque in tutti quei casi in cui ho bisogno di costruire custom query nel
+	// service
+	@PersistenceContext
+	private EntityManager entityManager;
+
 	@Autowired
 	private OrdineRepository ordineRepository;
 
@@ -29,11 +39,23 @@ public class OrdineServiceImpl implements OrdineService {
 	public List<Ordine> listAll() {
 		return (List<Ordine>) ordineRepository.findAll();
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Ordine> listAllOrderByData() {
+		return (List<Ordine>) ordineRepository.findAllOrderByData();
+	}
 
 	@Transactional(readOnly = true)
 	@Override
 	public Ordine caricaSingolo(Long id) {
 		return ordineRepository.findById(id).orElse(null);
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public Ordine caricaSingoloEager(Long id) {
+		return ordineRepository.findByIdEager(id);
 	}
 
 	@Transactional
@@ -70,6 +92,36 @@ public class OrdineServiceImpl implements OrdineService {
 		ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(StringMatcher.CONTAINING);
 		// Match string containing pattern .withIgnoreCase();
 		return (List<Ordine>) ordineRepository.findAll(Example.of(example, matcher));
+	}
+
+	private boolean isIntegerValue(BigDecimal bd) {
+		return bd.stripTrailingZeros().scale() <= 0;
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<Ordine> findByExampleOrderByData(Ordine example) {
+		String query = "select o from Ordine o where o.id = o.id ";
+
+		if (StringUtils.isNotEmpty(example.getCodice()))
+			query += " and o.codice like '%" + example.getCodice() + "%' ";
+		if (example.getCostoTotale() != null) {
+			if (isIntegerValue(example.getCostoTotale())) {
+				query += " and floor(o.costoTotale) =" + example.getCostoTotale() + " ";
+			} else {
+				query += " and o.costoTotale =" + example.getCostoTotale() + " ";
+			}
+		}
+		if (example.getSimpleData() != null)
+			query += " and o.data like '%" + example.getSimpleData() + "%' ";
+		if (example.isClosed() != null) {
+			int b = example.isClosed() ? 1 : 0;
+			query += " and o.closed = " + b + " ";
+		}
+
+		query += "ORDER BY o.data";
+
+		return entityManager.createQuery(query, Ordine.class).getResultList();
 	}
 
 }

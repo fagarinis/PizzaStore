@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pizzastore.model.Ingrediente;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.model.Pizza;
 import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.OrdineService;
@@ -24,7 +25,7 @@ import it.pizzastore.service.PizzaService;
 @WebServlet("/pizzaiolo/ordini/PrepareEliminaOrdineServlet")
 public class PrepareEliminaOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private OrdineService ordineService;
 
@@ -47,22 +48,17 @@ public class PrepareEliminaOrdineServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Long id = Long.parseLong(request.getParameter("idPizza"));
+		String idInput = request.getParameter("idOrdine");
+		Ordine ordineAttr = ordineService.caricaSingoloEager(Long.parseLong(idInput));
 
-		Pizza pizzaDaCancellare = pizzaService.caricaSingolaPizzaConIngredienti(id);
-
-		String[] idIngredientiChecked = new String[pizzaDaCancellare.getIngredienti().size()];
-		int i = 0;
-		for(Ingrediente ingrediente: pizzaDaCancellare.getIngredienti()) {
-			idIngredientiChecked[i++] = ingrediente.getId().toString();
+		if (ordineAttr.isClosed()) {
+			request.setAttribute("messaggioErrore", "Non è possibile eliminare un ordine chiuso");
+			request.setAttribute("listaOrdiniAttr", ordineService.listAll());
+			request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp").forward(request, response);
+			return;
 		}
-		
-		
-		request.setAttribute("pizzaPrezzoTotaleAttr", pizzaService.calcolaPrezzoPizza(pizzaDaCancellare));
-		
-		request.setAttribute("listaIngredientiCheckedAttr", idIngredientiChecked);
-		request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
-		request.setAttribute("pizzaAttr", pizzaDaCancellare);
+
+		request.setAttribute("ordineAttr", ordineAttr);
 		request.getRequestDispatcher("/pizzaiolo/ordini/delete.jsp").forward(request, response);
 	}
 

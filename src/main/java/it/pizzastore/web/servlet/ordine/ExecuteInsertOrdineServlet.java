@@ -89,6 +89,7 @@ public class ExecuteInsertOrdineServlet extends HttpServlet {
 			request.setAttribute("ordineAttr", ordineDTO);
 			request.setAttribute("ordineErrors", ordineErrors);
 			request.setAttribute("pizzeListAttr", pizzaService.listAllActiveEager());
+			request.setAttribute("numeroPizzeInput", numeroPizzeInput);
 			request.getRequestDispatcher("/pizzaiolo/ordini/insert.jsp").forward(request, response);
 			return;
 		}
@@ -99,7 +100,7 @@ public class ExecuteInsertOrdineServlet extends HttpServlet {
 
 		// vado in pagina con ok
 		request.setAttribute("messaggioConferma", "Inserimento avvenuto con successo");
-		request.setAttribute("listaPizzeAttr", ordineService.listAll());
+		request.setAttribute("listaOrdiniAttr", ordineService.listAll());
 		request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp").forward(request, response);
 	}
 

@@ -1,6 +1,7 @@
 package it.pizzastore.model;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Ordine {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data;
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
-	private boolean closed = false;
+	private Boolean closed = false;
 	private String codice;
 	private BigDecimal costoTotale;
 
@@ -62,16 +63,23 @@ public class Ordine {
 	public Date getData() {
 		return data;
 	}
+	
+	public String getSimpleData() {
+		if(this.getData() == null) {
+			return null;
+		}
+		return (new SimpleDateFormat("yyyy-MM-dd")).format(this.getData());
+	}
 
 	public void setData(Date data) {
 		this.data = data;
 	}
 
-	public boolean isClosed() {
+	public Boolean isClosed() {
 		return closed;
 	}
 
-	public void setClosed(boolean closed) {
+	public void setClosed(Boolean closed) {
 		this.closed = closed;
 	}
 
@@ -113,6 +121,14 @@ public class Ordine {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	
+	public Long getNumeroPizzeConId(Long id) {
+		Long numeroPizze = this.getPizze().stream().filter(pizza->pizza.getId() == id).count();
+		if(numeroPizze == 0) {
+			return null;
+		}
+		return numeroPizze;
 	}
 
 }

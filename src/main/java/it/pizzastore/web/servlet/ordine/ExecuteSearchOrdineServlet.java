@@ -1,6 +1,7 @@
 package it.pizzastore.web.servlet.ordine;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import it.pizzastore.dto.OrdineDTO;
 import it.pizzastore.dto.PizzaDTO;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.service.OrdineService;
 import it.pizzastore.service.PizzaService;
 
@@ -40,18 +43,21 @@ public class ExecuteSearchOrdineServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String descrizioneInput = request.getParameter("descrizioneInput");
 		String codiceInput = request.getParameter("codiceInput");
-		String prezzoBaseInput = request.getParameter("prezzoBaseInput");
-		String attivoInput = request.getParameter("attivoInput");
+		String dataInput = request.getParameter("dataInput");
+		String costoTotaleInput = request.getParameter("costoTotaleInput");
+		String chiusoInput = request.getParameter("chiusoInput");
 
-		PizzaDTO example = new PizzaDTO();
-		example.setDescrizione(descrizioneInput);
+		OrdineDTO example = new OrdineDTO();
 		example.setCodice(codiceInput);
-		example.setPrezzoBase(prezzoBaseInput);
-		example.setAttivo(attivoInput);
-		
-		request.setAttribute("listaPizzeAttr", pizzaService.findByExample(PizzaDTO.buildModelFromDto(example)));
+		example.setData(dataInput);
+		example.setCostoTotale(costoTotaleInput);
+		example.setClosed(chiusoInput);
+
+		Ordine exampleOrdine = OrdineDTO.buildModelFromDto(example);
+		System.out.println(exampleOrdine.getSimpleData());
+
+		request.setAttribute("listaOrdiniAttr", ordineService.findByExampleOrderByData(exampleOrdine));
 		request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp").forward(request, response);
 	}
 

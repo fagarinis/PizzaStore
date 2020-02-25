@@ -106,7 +106,8 @@
 						value ="${pizzaItem.id}"
 						>  
 						
-						<input oninput="updateCheckboxPizza('${i}'); updatePrezzoTotaleOrdine();" data-i ="${i}" type="number" min="1"  pattern="[0-9]" style="width: 3em;" id="numeroPizzaId" name="numeroPizza" >
+						<input oninput="updateCheckboxPizza('${i}'); updatePrezzoTotaleOrdine();" data-i ="${i}" type="number" min="1"  pattern="[0-9]" style="width: 3em;" id="numeroPizzaId" name="numeroPizza" 
+						value ="${numeroPizzeInput[i]}">
 							${pizzaItem.descrizione} +${pizzaItem.getPrezzo()} &euro; <br>
 							
 							
