@@ -42,16 +42,15 @@ public class ExecuteSearchPizzaServlet extends HttpServlet {
 		String descrizioneInput = request.getParameter("descrizioneInput");
 		String codiceInput = request.getParameter("codiceInput");
 		String prezzoBaseInput = request.getParameter("prezzoBaseInput");
-		String attivoInput = request.getParameter("attivoInput");
 
 		PizzaDTO example = new PizzaDTO();
 		example.setDescrizione(descrizioneInput);
 		example.setCodice(codiceInput);
 		example.setPrezzoBase(prezzoBaseInput);
-		
-		//questo per far apparire in ricerca solo le pizze attive
+
+		// questo per far apparire in ricerca solo le pizze attive
 		example.setAttivo(true);
-		
+
 		request.setAttribute("listaPizzeAttr", pizzaService.findByExample(PizzaDTO.buildModelFromDto(example)));
 		request.getRequestDispatcher("/pizzaiolo/pizze/result.jsp").forward(request, response);
 	}

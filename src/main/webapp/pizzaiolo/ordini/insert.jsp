@@ -55,8 +55,8 @@
 				<label class="control-label col-sm-2" for="clienteInputId">Cliente:</label>
 				<div class="col-sm-4">
 				<!-- variabili hidden dell'ultima selezione corretta di cliente -->
-					<input readonly type="text" name="clienteId" id="clienteId" value ="${ordineAttr.cliente.id}">
-					<input readonly type="text" name="clienteNome" id="clienteNomeId" value ="${ordineAttr.cliente.cognome}<c:if test="${ordineAttr.cliente != null}"> </c:if>${ordineAttr.cliente.nome}">
+					<input readonly type="hidden" name="clienteId" id="clienteId" value ="${ordineAttr.cliente.id}">
+					<input readonly type="hidden" name="clienteNome" id="clienteNomeId" value ="${ordineAttr.cliente.cognome}<c:if test="${ordineAttr.cliente != null}"> </c:if>${ordineAttr.cliente.nome}">
 				
 				<!-- visibile -->
 					<input oninput ="new svuotaCampiCliente()" class="form-control" type="text" id="clienteInputId"
@@ -69,8 +69,8 @@
 				<label class="control-label col-sm-2" for="clienteInputId">Fattorino:</label>
 				<div class="col-sm-4">
 				<!-- variabili hidden dell'ultima selezione corretta di fattorino -->
-					<input readonly type="text" name="fattorinoId" id="fattorinoId" value ="${ordineAttr.utente.id}">
-					<input readonly type="text" name="fattorinoNome" id="fattorinoNomeId" value ="${ordineAttr.utente.cognome}<c:if test="${ordineAttr.utente != null}"> </c:if>${ordineAttr.utente.nome}">
+					<input readonly type="hidden" name="fattorinoId" id="fattorinoId" value ="${ordineAttr.utente.id}">
+					<input readonly type="hidden" name="fattorinoNome" id="fattorinoNomeId" value ="${ordineAttr.utente.cognome}<c:if test="${ordineAttr.utente != null}"> </c:if>${ordineAttr.utente.nome}">
 				
 				<!-- visibile -->
 					<input oninput ="new svuotaCampiFattorino()" class="form-control" type="text" id="fattorinoInputId"

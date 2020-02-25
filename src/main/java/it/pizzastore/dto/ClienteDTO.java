@@ -1,6 +1,5 @@
 package it.pizzastore.dto;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,9 +73,7 @@ public class ClienteDTO {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
-	
-	
+
 	public boolean isAttivo() {
 		return attivo;
 	}

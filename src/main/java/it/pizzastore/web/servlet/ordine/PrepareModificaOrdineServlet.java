@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Ingrediente;
 import it.pizzastore.model.Ordine;
-import it.pizzastore.model.Pizza;
-import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.OrdineService;
 import it.pizzastore.service.PizzaService;
 
@@ -28,7 +25,7 @@ public class PrepareModificaOrdineServlet extends HttpServlet {
 
 	@Autowired
 	private OrdineService ordineService;
-	
+
 	@Autowired
 	private PizzaService pizzaService;
 
@@ -53,7 +50,7 @@ public class PrepareModificaOrdineServlet extends HttpServlet {
 			request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp").forward(request, response);
 			return;
 		}
-		
+
 		request.setAttribute("pizzeListAttr", pizzaService.listAllActiveEager());
 		request.setAttribute("ordineAttr", ordineAttr);
 		request.getRequestDispatcher("/pizzaiolo/ordini/modifica.jsp").forward(request, response);

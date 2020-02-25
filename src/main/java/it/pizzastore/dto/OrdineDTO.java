@@ -198,7 +198,7 @@ public class OrdineDTO {
 		result.setUtente(ordineDTO.getUtente());
 		result.setCliente(ordineDTO.getCliente());
 		result.setClosed(ordineDTO.isClosed());
-		
+
 		result.setCostoTotale(ordineDTO.getCostoTotale());
 
 		return result;
@@ -217,10 +217,10 @@ public class OrdineDTO {
 			this.setClosed(booleanNullo);
 		}
 	}
-	
+
 	public Long getNumeroPizzeConId(Long id) {
-		Long numeroPizze = this.getPizze().stream().filter(pizza->pizza.getId() == id).count();
-		if(numeroPizze == 0) {
+		Long numeroPizze = this.getPizze().stream().filter(pizza -> pizza.getId() == id).count();
+		if (numeroPizze == 0) {
 			return null;
 		}
 		return numeroPizze;

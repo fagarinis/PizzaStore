@@ -14,14 +14,13 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pizzastore.service.IngredienteService;
 
-
 @WebServlet("/pizzaiolo/pizze/PrepareInsertPizzaServlet")
 public class PrepareInsertPizzaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private IngredienteService ingredienteService;
-	
+
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);

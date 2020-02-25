@@ -12,7 +12,7 @@ public interface OrdineService extends IBaseService<Ordine> {
 	public List<Ordine> listAllOrderByData();
 
 	public Ordine caricaSingoloEager(Long id);
-	
+
 	public BigDecimal calcolaPrezzoOrdine(Ordine o);
 
 }

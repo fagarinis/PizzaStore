@@ -12,12 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Ingrediente;
 import it.pizzastore.model.Ordine;
-import it.pizzastore.model.Pizza;
-import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.OrdineService;
-import it.pizzastore.service.PizzaService;
 
 /**
  * Servlet implementation class PrepareEliminaMunicipioServlet

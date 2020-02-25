@@ -23,7 +23,7 @@ import it.pizzastore.service.PizzaService;
 @WebServlet("/pizzaiolo/pizze/PrepareEliminaPizzaServlet")
 public class PrepareEliminaPizzaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private IngredienteService ingredienteService;
 
@@ -55,13 +55,12 @@ public class PrepareEliminaPizzaServlet extends HttpServlet {
 
 		String[] idIngredientiChecked = new String[pizzaDaCancellare.getIngredienti().size()];
 		int i = 0;
-		for(Ingrediente ingrediente: pizzaDaCancellare.getIngredienti()) {
+		for (Ingrediente ingrediente : pizzaDaCancellare.getIngredienti()) {
 			idIngredientiChecked[i++] = ingrediente.getId().toString();
 		}
-		
-		
+
 		request.setAttribute("pizzaPrezzoTotaleAttr", pizzaService.calcolaPrezzoPizza(pizzaDaCancellare));
-		
+
 		request.setAttribute("listaIngredientiCheckedAttr", idIngredientiChecked);
 		request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
 		request.setAttribute("pizzaAttr", pizzaDaCancellare);

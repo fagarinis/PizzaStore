@@ -83,15 +83,11 @@ public class Ordine {
 		this.closed = closed;
 	}
 
-	public void setCodice(String codice) {
-		this.codice = codice;
-	}
-
 	public String getCodice() {
 		return codice;
 	}
 
-	public void ordinePersist(String codice) {
+	public void setCodice(String codice) {
 		this.codice = codice;
 	}
 

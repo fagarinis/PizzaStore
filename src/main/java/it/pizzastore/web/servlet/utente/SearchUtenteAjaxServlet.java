@@ -17,10 +17,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import it.pizzastore.model.Cliente;
 import it.pizzastore.model.CodiceRuolo;
 import it.pizzastore.model.Utente;
-import it.pizzastore.service.ClienteService;
 import it.pizzastore.service.UtenteService;
 
 //servlet per la ricerca di tutti gli utenti fattorini
@@ -48,7 +46,8 @@ public class SearchUtenteAjaxServlet extends HttpServlet {
 
 		String term = request.getParameter("term");
 
-		List<Utente> listaUtentiByTerm = utenteService.cercaUtentiByCodiceRuoloAndCognomeLike(CodiceRuolo.FATTORINO_ROLE, term);
+		List<Utente> listaUtentiByTerm = utenteService
+				.cercaUtentiByCodiceRuoloAndCognomeLike(CodiceRuolo.FATTORINO_ROLE, term);
 		String json = buildJsonResponse(listaUtentiByTerm);
 		response.getWriter().write(json);
 	}
@@ -66,7 +65,7 @@ public class SearchUtenteAjaxServlet extends HttpServlet {
 			jo.addProperty("name", utenteElement.getNome());
 			ja.add(jo);
 		}
-		
+
 		return new Gson().toJson(ja);
 	}
 
