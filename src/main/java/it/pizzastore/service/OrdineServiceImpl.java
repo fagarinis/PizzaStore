@@ -1,6 +1,7 @@
 package it.pizzastore.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class OrdineServiceImpl implements OrdineService {
 	public List<Ordine> listAll() {
 		return (List<Ordine>) ordineRepository.findAll();
 	}
-	
+
 	@Transactional(readOnly = true)
 	@Override
 	public List<Ordine> listAllOrderByData() {
@@ -51,7 +52,7 @@ public class OrdineServiceImpl implements OrdineService {
 	public Ordine caricaSingolo(Long id) {
 		return ordineRepository.findById(id).orElse(null);
 	}
-	
+
 	@Transactional(readOnly = true)
 	@Override
 	public Ordine caricaSingoloEager(Long id) {
@@ -61,12 +62,33 @@ public class OrdineServiceImpl implements OrdineService {
 	@Transactional
 	@Override
 	public void aggiorna(Ordine o) {
-		ordineRepository.save(o);
+		Ordine ordinePersist = this.caricaSingolo(o.getId());
+		ordinePersist.setCodice(o.getCodice());
+		ordinePersist.setPizze(o.getPizze());
+		ordinePersist.setUtente(o.getUtente());
+		ordinePersist.setCliente(o.getCliente());
+
+		// il save non funzionava per via del fatto che un
+		// ordine può avere più pizze dello stesso tipo
 	}
 
 	@Transactional
 	@Override
 	public void inserisciNuovo(Ordine o) {
+		o.setCostoTotale(calcolaPrezzoOrdine(o));
+		o.setClosed(false);
+		o.setData(new Date());
+
+		ordineRepository.save(o);
+	}
+
+	/**
+	 * viene evocato su un ordine transient che contiene pizze transient con solo id
+	 */
+	@Transactional(readOnly = true)
+	@Override
+	public BigDecimal calcolaPrezzoOrdine(Ordine o) {
+
 		BigDecimal costoOrdineTotale = BigDecimal.ZERO;
 		for (Pizza pizza : o.getPizze()) {
 			Pizza pizzaInOrdine = pizzaService.caricaSingolaPizzaConIngredienti(pizza.getId());
@@ -74,10 +96,7 @@ public class OrdineServiceImpl implements OrdineService {
 			costoOrdineTotale = costoOrdineTotale.add(costoPizza);
 		}
 
-		o.setCostoTotale(costoOrdineTotale);
-		o.setClosed(false);
-		o.setData(new Date());
-		ordineRepository.save(o);
+		return costoOrdineTotale;
 	}
 
 	@Transactional

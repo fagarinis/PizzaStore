@@ -63,9 +63,9 @@ public class Ordine {
 	public Date getData() {
 		return data;
 	}
-	
+
 	public String getSimpleData() {
-		if(this.getData() == null) {
+		if (this.getData() == null) {
 			return null;
 		}
 		return (new SimpleDateFormat("yyyy-MM-dd")).format(this.getData());
@@ -83,11 +83,15 @@ public class Ordine {
 		this.closed = closed;
 	}
 
+	public void setCodice(String codice) {
+		this.codice = codice;
+	}
+
 	public String getCodice() {
 		return codice;
 	}
 
-	public void setCodice(String codice) {
+	public void ordinePersist(String codice) {
 		this.codice = codice;
 	}
 
@@ -122,10 +126,10 @@ public class Ordine {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+
 	public Long getNumeroPizzeConId(Long id) {
-		Long numeroPizze = this.getPizze().stream().filter(pizza->pizza.getId() == id).count();
-		if(numeroPizze == 0) {
+		Long numeroPizze = this.getPizze().stream().filter(pizza -> pizza.getId() == id).count();
+		if (numeroPizze == 0) {
 			return null;
 		}
 		return numeroPizze;

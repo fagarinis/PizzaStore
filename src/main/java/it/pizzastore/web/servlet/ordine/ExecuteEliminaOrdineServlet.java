@@ -13,9 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.pizzastore.model.Pizza;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.service.OrdineService;
-import it.pizzastore.service.PizzaService;
 
 /**
  * Servlet implementation class ExecuteEliminaMunicipioServlet
@@ -54,11 +53,11 @@ public class ExecuteEliminaOrdineServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Long id = Long.parseLong(request.getParameter("idPizza"));
+		Long id = Long.parseLong(request.getParameter("idOrdine"));
 
-		pizzaService.rimuovi(new Pizza(id));
+		ordineService.rimuovi(new Ordine(id));
 
-		request.setAttribute("listaPizzeAttr", pizzaService.listAll());
+		request.setAttribute("listaOrdiniAttr", ordineService.listAllOrderByData());
 		request.setAttribute("messaggioConferma", "Cancellazione avvenuta con successo");
 
 		RequestDispatcher rd = request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp");

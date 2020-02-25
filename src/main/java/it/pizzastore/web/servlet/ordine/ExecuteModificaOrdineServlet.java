@@ -13,11 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import it.pizzastore.dto.OrdineDTO;
 import it.pizzastore.dto.PizzaDTO;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.model.Pizza;
+import it.pizzastore.service.ClienteService;
 import it.pizzastore.service.IngredienteService;
 import it.pizzastore.service.OrdineService;
 import it.pizzastore.service.PizzaService;
+import it.pizzastore.service.UtenteService;
 
 /**
  * Servlet implementation class ExecuteModificaMunicipioServlet
@@ -27,8 +31,17 @@ public class ExecuteModificaOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
+	private PizzaService pizzaService;
+
+	@Autowired
 	private OrdineService ordineService;
-	
+
+	@Autowired
+	private ClienteService clienteService;
+
+	@Autowired
+	private UtenteService utenteService;
+
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -46,36 +59,50 @@ public class ExecuteModificaOrdineServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// binding
 		String idInput = request.getParameter("idInput");
-		String descrizioneInput = request.getParameter("descrizioneInput");
 		String codiceInput = request.getParameter("codiceInput");
-		String prezzoBaseInput = request.getParameter("prezzoBaseInput");
-		String attivoInput = request.getParameter("attivoInput");
-		String[] idIngredientiInput = request.getParameterValues("ingredienteInput");
+		String dataInput = request.getParameter("dataInput");
+		String clienteId = request.getParameter("clienteId");
+		String fattorinoId = request.getParameter("fattorinoId");
+		String[] idPizzeInput = request.getParameterValues("pizzaInput");
+		String[] numeroPizzeInput = request.getParameterValues("numeroPizza");
 
-		PizzaDTO pizzaDTO = new PizzaDTO();
-		pizzaDTO.setId(Long.parseLong(idInput));
-		pizzaDTO.setDescrizione(descrizioneInput);
-		pizzaDTO.setCodice(codiceInput);
-		pizzaDTO.setPrezzoBase(prezzoBaseInput);
-		pizzaDTO.setIngredienti(idIngredientiInput);
-		pizzaDTO.setAttivo(attivoInput);
+		OrdineDTO ordineDTO = new OrdineDTO();
+		ordineDTO.setId(Long.parseLong(idInput));
+		ordineDTO.setCodice(codiceInput);
+		ordineDTO.setData(dataInput);
+		ordineDTO.setCliente(clienteId);
+		ordineDTO.setUtente(fattorinoId);
+		ordineDTO.setPizze(idPizzeInput, numeroPizzeInput);
 
-		List<String> pizzaErrors = pizzaDTO.errors();
-		if (!pizzaErrors.isEmpty()) {
-			request.setAttribute("pizzaAttr", pizzaDTO);
-			request.setAttribute("pizzaErrors", pizzaErrors);
-			request.setAttribute("listaIngredientiCheckedAttr", pizzaDTO.getIdIngredienti());
-			request.setAttribute("ingredientiListAttr", ingredienteService.listAll());
+		ordineDTO.setClosed(false);
+
+		// effettuo la validazione dell'input e se non va bene rimando in pagina
+		List<String> ordineErrors = ordineDTO.errors();
+		if (!ordineErrors.isEmpty()) {
+			if (ordineDTO.getCliente() != null) {
+				ordineDTO.setCliente(clienteService.caricaSingolo(ordineDTO.getCliente().getId()));
+			}
+			if (ordineDTO.getUtente() != null) {
+				ordineDTO.setUtente(utenteService.caricaSingolo(ordineDTO.getUtente().getId()));
+			}
+
+			request.setAttribute("ordineAttr", ordineDTO);
+			request.setAttribute("ordineErrors", ordineErrors);
+			request.setAttribute("pizzeListAttr", pizzaService.listAllActiveEager());
+			request.setAttribute("numeroPizzeInput", numeroPizzeInput);
 			request.getRequestDispatcher("/pizzaiolo/ordini/modifica.jsp").forward(request, response);
 			return;
 		}
 
-		Pizza pizzaInstance = PizzaDTO.buildModelFromDto(pizzaDTO);
-		pizzaService.aggiornaConIngredienti(pizzaInstance);
+		// se arrivo qui significa che va bene
+		Ordine ordineInstance = OrdineDTO.buildModelFromDto(ordineDTO);
+		ordineService.aggiorna(ordineInstance);
 
+		// vado in pagina con ok
 		request.setAttribute("messaggioConferma", "Modifica avvenuta con successo");
-		request.setAttribute("listaPizzeAttr", pizzaService.listAll());
+		request.setAttribute("listaOrdiniAttr", ordineService.listAll());
 		request.getRequestDispatcher("/pizzaiolo/ordini/result.jsp").forward(request, response);
 	}
 

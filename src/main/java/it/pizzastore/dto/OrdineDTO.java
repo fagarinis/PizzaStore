@@ -217,5 +217,13 @@ public class OrdineDTO {
 			this.setClosed(booleanNullo);
 		}
 	}
+	
+	public Long getNumeroPizzeConId(Long id) {
+		Long numeroPizze = this.getPizze().stream().filter(pizza->pizza.getId() == id).count();
+		if(numeroPizze == 0) {
+			return null;
+		}
+		return numeroPizze;
+	}
 
 }
