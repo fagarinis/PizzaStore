@@ -18,7 +18,7 @@ import it.pizzastore.model.Utente;
 public class CheckAuthFilter implements Filter {
 
 	private static final String HOME_PATH = "";
-	private static final String[] EXCLUDED_URLS = { "/login.jsp", "/LoginServlet", "/LogoutServlet", "/css/", "/js/" };
+	private static final String[] EXCLUDED_URLS = { "/registrati.jsp","/login.jsp","/ExecuteRegistrazioneUtenteServlet", "/LoginServlet", "/LogoutServlet", "/css/", "/js/" };
 	private static final String[] PROTECTED_URLS = { "/admin/" };
 	private static final String[] PROTECTED_URLS_PIZZAIOLO = { "/pizzaiolo/" };
 	private static final String[] PROTECTED_URLS_FATTORINO = { "/fattorino/" };

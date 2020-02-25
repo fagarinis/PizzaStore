@@ -17,6 +17,10 @@
 		<div class="alert alert-danger  ${messaggioErrore==null?'d-none':''}" role="alert">
 		  ${messaggioErrore }
 		</div>
+		
+		<div class="alert alert-success  ${messaggioConferma==null?'d-none':''}" role="alert">
+		  ${messaggioConferma }
+		</div>
 	    <form class="form-signin" action="LoginServlet" method="post">
 	<!--       <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
 	      <h1 class="h3 mb-3 font-weight-normal">Accedi al Sistema PizzaStore</h1>
@@ -25,6 +29,7 @@
 	      <label for="inputPassword" class="sr-only">Password</label>
 	      <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
 	      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	      <a class="btn btn-lg btn-primary btn-block" href="registrati.jsp">Registrati</a>
 	      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
 	    </form>
     </div>
