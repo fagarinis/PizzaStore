@@ -15,4 +15,7 @@ public interface OrdineService extends IBaseService<Ordine> {
 
 	public BigDecimal calcolaPrezzoOrdine(Ordine o);
 
+	public List<Ordine> listAllOrdiniAttiviUtenteOrdinaPerData(Long fattorinoId);
+
+	public void chiudiOrdine(Long idOrdine);
 }

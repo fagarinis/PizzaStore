@@ -142,4 +142,19 @@ public class OrdineServiceImpl implements OrdineService {
 		return entityManager.createQuery(query, Ordine.class).getResultList();
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public List<Ordine> listAllOrdiniAttiviUtenteOrdinaPerData(Long fattorinoId) {
+		return ordineRepository.listAllActiveOrderOfUserOrderByDate(fattorinoId);
+	}
+
+	@Transactional
+	@Override
+	public void chiudiOrdine(Long idOrdine) {
+		Ordine ordine = this.caricaSingolo(idOrdine);
+		if (!ordine.isClosed()) {
+			ordine.setClosed(true);
+		}
+	}
+
 }

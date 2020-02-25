@@ -76,7 +76,39 @@
 		 
      </c:if>
 
+	<c:if test="${userInfo.isFattorino()}"> 
+	<!-- Area fattorino -->
+	<div class="page-header">
+			<h3>Area Fattorino: Ordini Aperti Assegnati</h3>
+		</div>
+	
+	<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Codice</th>
+					<th>Costo Totale</th>
+					<th>Stato Ordine</th>
+					
+					<th>Action</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			
+				<c:forEach var="ordineItem" items="${listaOrdiniAttr }">
+					<tr>
+						<td>${ordineItem.codice }</td>
+						<td>${ordineItem.costoTotale } &euro;</td>
+						<td>${ordineItem.isClosed()? 'Chiuso' : 'Aperto' }</td>
+						<td><a
+							href="${pageContext.request.contextPath}/ExecuteChiudiOrdineServlet?idOrdine=${ordineItem.id}"
+							class="btn btn-info">Chiudi Ordine</a> 
+					</tr>
+				</c:forEach>
+			</tbody>
 
+		</table>
+	</c:if>
 
 	 <%@ include file="footer.jsp" %>
 </div>
