@@ -19,4 +19,6 @@ public interface PizzaService extends IBaseService<Pizza> {
 
 	public List<Pizza> cercaByDescrizioneLike(String term);
 
+	public List<Pizza> findByExampleConIdIngredienti(Pizza pizzaExample);
+
 }

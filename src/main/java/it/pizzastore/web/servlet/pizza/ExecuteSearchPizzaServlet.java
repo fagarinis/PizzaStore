@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pizzastore.dto.PizzaDTO;
+import it.pizzastore.model.Pizza;
 import it.pizzastore.service.PizzaService;
 
 @WebServlet("/pizzaiolo/pizze/ExecuteSearchPizzaServlet")
@@ -42,16 +43,21 @@ public class ExecuteSearchPizzaServlet extends HttpServlet {
 		String descrizioneInput = request.getParameter("descrizioneInput");
 		String codiceInput = request.getParameter("codiceInput");
 		String prezzoBaseInput = request.getParameter("prezzoBaseInput");
+		String[] idIngredientiInput = request.getParameterValues("ingredienteInput");
 
 		PizzaDTO example = new PizzaDTO();
 		example.setDescrizione(descrizioneInput);
 		example.setCodice(codiceInput);
 		example.setPrezzoBase(prezzoBaseInput);
+		example.setIngredienti(idIngredientiInput);
 
 		// questo per far apparire in ricerca solo le pizze attive
 		example.setAttivo(true);
-
-		request.setAttribute("listaPizzeAttr", pizzaService.findByExample(PizzaDTO.buildModelFromDto(example)));
+		
+		Pizza pizzaExample = PizzaDTO.buildModelFromDto(example);
+		request.setAttribute("listaPizzeAttr", pizzaService.findByExampleConIdIngredienti(pizzaExample));
+		System.out.println(pizzaExample);
+		
 		request.getRequestDispatcher("/pizzaiolo/pizze/result.jsp").forward(request, response);
 	}
 

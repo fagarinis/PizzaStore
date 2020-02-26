@@ -42,6 +42,17 @@
   			</div>
   			
   			
+  			<div class="form-group">
+      			<label class="control-label col-sm-2" for="ingredientiInputId">Ingredienti:</label>
+	    		<div class="col-sm-4">
+	    			<c:forEach var = "ingredienteItem" items ="${ingredientiListAttr}">
+						<input  type="checkbox" id="ingredienteInputId" name="ingredienteInput" value ="${ingredienteItem.id}"> ${ingredienteItem.descrizione} 
+						<br>
+					</c:forEach>
+			 	</div>
+  			</div>
+  			
+  			
   			<div class="form-group">        
 		      <div class="col-sm-offset-2 col-sm-10">
 		        <button type="submit" class="btn btn-primary btn-md">Effettua Ricerca</button>

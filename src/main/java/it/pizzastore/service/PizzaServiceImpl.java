@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -14,12 +18,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.pizzastore.model.Ingrediente;
+import it.pizzastore.model.Ordine;
 import it.pizzastore.model.Pizza;
 import it.pizzastore.repository.IngredienteRepository;
 import it.pizzastore.repository.PizzaRepository;
 
 @Service
 public class PizzaServiceImpl implements PizzaService {
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Autowired
 	IngredienteRepository ingredienteRepository;
@@ -120,6 +128,29 @@ public class PizzaServiceImpl implements PizzaService {
 	@Override
 	public List<Pizza> cercaByDescrizioneLike(String term) {
 		return pizzaRepository.findByDescrizioneContaining(term);
+	}
+
+	/**
+	 * Riceva una pizza che contiene ingredienti transient con solo id
+	 */
+	@Transactional(readOnly = true)
+	@Override
+	public List<Pizza> findByExampleConIdIngredienti(Pizza example) {
+		String query = "select distinct p from Pizza p left join p.ingredienti i "
+				+ " where p.id = p.id "
+				+ " and p.attivo = 1 ";
+
+		if (StringUtils.isNotEmpty(example.getCodice()))
+			query += " and p.codice like '%" + example.getCodice() + "%' ";
+		if (StringUtils.isNotEmpty(example.getDescrizione()))
+			query += " and p.descrizione like '%" + example.getDescrizione() + "%' ";
+		if (example.getPrezzoBase() != null)
+			query += " and p.prezzoBase = "+ example.getPrezzoBase() +" ";
+		for(Ingrediente ingrediente: example.getIngredienti()) {
+			query += " and i.id = "+ ingrediente.getId(); 
+		}
+
+		return entityManager.createQuery(query, Pizza.class).getResultList();
 	}
 
 }
