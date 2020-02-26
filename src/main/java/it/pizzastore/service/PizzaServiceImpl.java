@@ -40,6 +40,14 @@ public class PizzaServiceImpl implements PizzaService {
 	public List<Pizza> listAll() {
 		return (List<Pizza>) pizzaRepository.findAll();
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Pizza> listAllActive() {
+		Pizza example = new Pizza();
+		example.setAttivo(true);
+		return this.findByExample(example);
+	}
 
 	@Transactional(readOnly = true)
 	@Override

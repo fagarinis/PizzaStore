@@ -21,4 +21,6 @@ public interface PizzaService extends IBaseService<Pizza> {
 
 	public List<Pizza> findByExampleConIdIngredienti(Pizza pizzaExample);
 
+	public List<Pizza> listAllActive();
+
 }

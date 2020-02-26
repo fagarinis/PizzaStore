@@ -57,7 +57,7 @@ public class ExecuteEliminaPizzaServlet extends HttpServlet {
 
 		pizzaService.disattiva(new Pizza(id));
 
-		request.setAttribute("listaPizzeAttr", pizzaService.listAll());
+		request.setAttribute("listaPizzeAttr", pizzaService.listAllActive());
 		request.setAttribute("messaggioConferma", "Cancellazione avvenuta con successo");
 
 		RequestDispatcher rd = request.getRequestDispatcher("/pizzaiolo/pizze/result.jsp");

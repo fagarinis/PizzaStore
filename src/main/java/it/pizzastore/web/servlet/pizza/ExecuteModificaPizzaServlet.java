@@ -52,7 +52,6 @@ public class ExecuteModificaPizzaServlet extends HttpServlet {
 		String descrizioneInput = request.getParameter("descrizioneInput");
 		String codiceInput = request.getParameter("codiceInput");
 		String prezzoBaseInput = request.getParameter("prezzoBaseInput");
-		String attivoInput = request.getParameter("attivoInput");
 		String[] idIngredientiInput = request.getParameterValues("ingredienteInput");
 
 		PizzaDTO pizzaDTO = new PizzaDTO();
@@ -61,7 +60,7 @@ public class ExecuteModificaPizzaServlet extends HttpServlet {
 		pizzaDTO.setCodice(codiceInput);
 		pizzaDTO.setPrezzoBase(prezzoBaseInput);
 		pizzaDTO.setIngredienti(idIngredientiInput);
-		pizzaDTO.setAttivo(attivoInput);
+		pizzaDTO.setAttivo(true);
 
 		List<String> pizzaErrors = pizzaDTO.errors();
 		if (!pizzaErrors.isEmpty()) {
@@ -77,7 +76,7 @@ public class ExecuteModificaPizzaServlet extends HttpServlet {
 		pizzaService.aggiornaConIngredienti(pizzaInstance);
 
 		request.setAttribute("messaggioConferma", "Modifica avvenuta con successo");
-		request.setAttribute("listaPizzeAttr", pizzaService.listAll());
+		request.setAttribute("listaPizzeAttr", pizzaService.listAllActive());
 		request.getRequestDispatcher("/pizzaiolo/pizze/result.jsp").forward(request, response);
 	}
 
