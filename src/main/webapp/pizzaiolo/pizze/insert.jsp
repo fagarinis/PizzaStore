@@ -4,9 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-
-
+<script src="validatePizzaForm.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inserisci Pizza</title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jqueryUI/jquery-ui.min.css" />
@@ -32,10 +30,7 @@
 	</div>
 
 
-
-
-		<!-- da implementare onsubmit ="return validateIngredienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteInsertPizzaServlet" method="post">
+      	<form onsubmit ="return validatePizzaForm()" class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteInsertPizzaServlet" method="post">
       	
       		<div class="form-group">
       			<label class="control-label col-sm-2" for="codiceInputId">Codice:</label>

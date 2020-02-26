@@ -4,10 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-
+<script src="validateClienteForm.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Inserisci Ingrediente</title>
+<title>Inserisci Cliente</title>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon" />
 </head>
 <body>
@@ -33,7 +32,7 @@
 
 
 		<!-- da implementare onsubmit ="return validateClienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/clienti/ExecuteInsertClienteServlet" method="post">
+      	<form onsubmit="return validateClienteForm()" class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/clienti/ExecuteInsertClienteServlet" method="post">
       	
       		<div class="form-group">
       			<label class="control-label col-sm-2" for="nomeInputId">Nome:</label>

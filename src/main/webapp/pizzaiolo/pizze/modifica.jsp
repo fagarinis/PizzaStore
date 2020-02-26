@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<script src="validatePizzaForm.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Modifica Pizza</title>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon" />
@@ -28,8 +28,7 @@
       	</c:forEach>
 	</div>
 
-		<!-- da implementare onsubmit ="return validateIngredienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteModificaPizzaServlet" method="post">
+      	<form onsubmit ="return validatePizzaForm()" class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/pizze/ExecuteModificaPizzaServlet" method="post">
       	
       		<input class="form-control" type="hidden" id="idInputId" name="idInput" 
 					value = "${pizzaAttr.id}">
@@ -62,6 +61,7 @@
 					<input readonly class="form-control" type='number' step='0.01'   id="prezzoTotaleInputId" name="prezzoTotaleInput" >
 			 	</div>
   			</div>
+  			
   			
   			<div class="form-group">
       			<label class="control-label col-sm-2" for="ingredientiInputId">Ingredienti:</label>

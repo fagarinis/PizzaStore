@@ -4,6 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="validateOrdineForm.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inserisci Nuovo Ordine</title>
@@ -30,8 +31,7 @@
 	</div>
 
 
-		<!-- da implementare onsubmit ="return validateIngredienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ordini/ExecuteInsertOrdineServlet" method="post">
+      	<form onsubmit="return validateOrdineForm()" class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ordini/ExecuteInsertOrdineServlet" method="post">
       	
       		<div class="form-group">
       			<label class="control-label col-sm-2" for="codiceInputId">Codice:</label>
@@ -66,7 +66,7 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="clienteInputId">Fattorino:</label>
+				<label class="control-label col-sm-2" for="fattorinoInputId">Fattorino:</label>
 				<div class="col-sm-4">
 				<!-- variabili hidden dell'ultima selezione corretta di fattorino -->
 					<input readonly type="hidden" name="fattorinoId" id="fattorinoId" value ="${ordineAttr.utente.id}">

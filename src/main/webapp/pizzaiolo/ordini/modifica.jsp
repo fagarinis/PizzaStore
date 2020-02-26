@@ -5,6 +5,8 @@
 <html>
 <head>
 
+<script src="validateOrdineForm.js"></script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Modifica Ordine</title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jqueryUI/jquery-ui.min.css" />
@@ -30,7 +32,7 @@
 	</div>
 
 		<!-- da implementare onsubmit ="return validateIngredienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ordini/ExecuteModificaOrdineServlet" method="post">
+      	<form onsubmit="return validateOrdineForm()" class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ordini/ExecuteModificaOrdineServlet" method="post">
       	
       		<input class="form-control" type="hidden" id="idInputId" name="idInput" 
 					value = "${ordineAttr.id}">

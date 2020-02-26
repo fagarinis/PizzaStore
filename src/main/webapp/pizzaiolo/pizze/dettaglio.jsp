@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Dettaglio Ingrediente</title>
+<title>Dettaglio Pizza</title>
 </head>
 <body>
 	<div class="container">

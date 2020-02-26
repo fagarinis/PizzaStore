@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<script src="validateIngredienteForm.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Modifica Ingrediente</title>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon" />
@@ -28,8 +28,7 @@
       	</c:forEach>
 	</div>
 
-		<!-- da implementare onsubmit ="return validateIngredienteForm()" -->
-      	<form  class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteModificaIngredienteServlet" method="post">
+      	<form onsubmit="return validateIngredienteForm()" class="form-horizontal" action="${pageContext.request.contextPath}/pizzaiolo/ingredienti/ExecuteModificaIngredienteServlet" method="post">
       	
       		<input class="form-control" type="hidden" id="idInputId" name="idInput" 
 					value = "${ingredienteAttr.id}">
