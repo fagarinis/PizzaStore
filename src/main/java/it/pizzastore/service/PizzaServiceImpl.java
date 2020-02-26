@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.pizzastore.model.Ingrediente;
-import it.pizzastore.model.Ordine;
 import it.pizzastore.model.Pizza;
 import it.pizzastore.repository.IngredienteRepository;
 import it.pizzastore.repository.PizzaRepository;

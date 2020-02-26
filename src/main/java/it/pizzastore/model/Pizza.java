@@ -105,8 +105,6 @@ public class Pizza {
 		return result;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Pizza [id=" + id + ", descrizione=" + descrizione + ", codice=" + codice + ", prezzoBase=" + prezzoBase

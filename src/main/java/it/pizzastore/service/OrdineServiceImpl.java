@@ -16,23 +16,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.pizzastore.model.Ordine;
-import it.pizzastore.model.Pizza;
+import it.pizzastore.model.utils.IntegerUtils;
 import it.pizzastore.repository.OrdineRepository;
 
 @Service
 public class OrdineServiceImpl implements OrdineService {
 
-	// questo mi serve per il findByExample2 che risulta 'a mano'
-	// o comunque in tutti quei casi in cui ho bisogno di costruire custom query nel
-	// service
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Autowired
 	private OrdineRepository ordineRepository;
-
-	@Autowired
-	private PizzaService pizzaService;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -66,6 +60,8 @@ public class OrdineServiceImpl implements OrdineService {
 		ordinePersist.setPizze(o.getPizze());
 		ordinePersist.setUtente(o.getUtente());
 		ordinePersist.setCliente(o.getCliente());
+		// setto il prezzo dopo aver aggiornato le pizze
+		ordinePersist.setCostoTotale(calcolaPrezzoOrdine(ordinePersist));
 
 		// il save non funzionava per via del fatto che un
 		// ordine può avere più pizze dello stesso tipo
@@ -74,28 +70,20 @@ public class OrdineServiceImpl implements OrdineService {
 	@Transactional
 	@Override
 	public void inserisciNuovo(Ordine o) {
-		o.setCostoTotale(calcolaPrezzoOrdine(o));
 		o.setClosed(false);
 		o.setData(new Date());
-
 		ordineRepository.save(o);
+		// setto il prezzo dopo aver settato le pizze
+		o.setCostoTotale(calcolaPrezzoOrdine(o));
 	}
 
 	/**
-	 * viene evocato su un ordine transient che contiene pizze transient con solo id
+	 * evocato su un ordine a cui sono già state collegate le pizze sul DB
 	 */
 	@Transactional(readOnly = true)
 	@Override
 	public BigDecimal calcolaPrezzoOrdine(Ordine o) {
-
-		BigDecimal costoOrdineTotale = BigDecimal.ZERO;
-		for (Pizza pizza : o.getPizze()) {
-			Pizza pizzaInOrdine = pizzaService.caricaSingolaPizzaConIngredienti(pizza.getId());
-			BigDecimal costoPizza = pizzaInOrdine.getPrezzo();
-			costoOrdineTotale = costoOrdineTotale.add(costoPizza);
-		}
-
-		return costoOrdineTotale;
+		return ordineRepository.getPrezzoTotaleOrdine(o.getId());
 	}
 
 	@Transactional
@@ -112,10 +100,6 @@ public class OrdineServiceImpl implements OrdineService {
 		return (List<Ordine>) ordineRepository.findAll(Example.of(example, matcher));
 	}
 
-	private boolean isIntegerValue(BigDecimal bd) {
-		return bd.stripTrailingZeros().scale() <= 0;
-	}
-
 	@Transactional(readOnly = true)
 	@Override
 	public List<Ordine> findByExampleOrderByData(Ordine example) {
@@ -124,7 +108,7 @@ public class OrdineServiceImpl implements OrdineService {
 		if (StringUtils.isNotEmpty(example.getCodice()))
 			query += " and o.codice like '%" + example.getCodice() + "%' ";
 		if (example.getCostoTotale() != null) {
-			if (isIntegerValue(example.getCostoTotale())) {
+			if (IntegerUtils.isIntegerValue(example.getCostoTotale())) {
 				query += " and floor(o.costoTotale) =" + example.getCostoTotale() + " ";
 			} else {
 				query += " and o.costoTotale =" + example.getCostoTotale() + " ";
