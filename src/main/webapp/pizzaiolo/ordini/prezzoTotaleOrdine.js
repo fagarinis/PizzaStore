@@ -138,7 +138,7 @@ $( "#clienteInputId" ).autocomplete({
 	                response($.map(data, function(item) {
 	                    return {
 	                    	value: item.value, //id
-	                    	label: item.label +" "+item.name //cognome
+	                    	label: item.name +" "+item.label //cognome
 		                    
 	                    }
 	                }))

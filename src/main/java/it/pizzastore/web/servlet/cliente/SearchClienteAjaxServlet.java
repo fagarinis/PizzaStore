@@ -44,7 +44,8 @@ public class SearchClienteAjaxServlet extends HttpServlet {
 
 		String term = request.getParameter("term");
 
-		List<Cliente> listaClientiByTerm = clienteService.cercaByCognomeLike(term);
+		List<Cliente> listaClientiByTerm = clienteService.cercaByNomeCompletoLike(term);
+		System.out.println(listaClientiByTerm);
 		String json = buildJsonResponse(listaClientiByTerm);
 		response.getWriter().write(json);
 	}

@@ -12,4 +12,6 @@ public interface ClienteService extends IBaseService<Cliente> {
 
 	public List<Cliente> cercaByCognomeLike(String term);
 
+	public List<Cliente> cercaByNomeCompletoLike(String term);
+
 }

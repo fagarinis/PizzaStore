@@ -1,6 +1,11 @@
 package it.pizzastore.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -14,9 +19,12 @@ import it.pizzastore.repository.ClienteRepository;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Autowired
-	ClienteRepository clienteRepository;
+	private ClienteRepository clienteRepository;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -80,6 +88,27 @@ public class ClienteServiceImpl implements ClienteService {
 		example.setCognome(cognome);
 		example.setAttivo(true);
 		return this.findByExample(example);
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Cliente> cercaByNomeCompletoLike(String term){
+		String query = ""
+				+ "SELECT " + 
+				"    x.id as id, x.nome as nome, x.cognome as cognome, x.via as via, x.civico as civico, x.citta as citta, x.telefono as telefono, x.attivo " + 
+				"FROM " + 
+				"    (SELECT " + 
+				"        c.id, c.nome, c.cognome, c.via, c.civico, c.citta, c.telefono, c.attivo,CONCAT(c.nome, ' ', c.cognome) AS NomeCompleto " + 
+				"    FROM " + 
+				"        cliente c) AS x " + 
+				"WHERE " + 
+				"    NomeCompleto LIKE '%"+term+"%' and x.attivo = 1";
+		
+		@SuppressWarnings("unchecked")
+		List<Cliente> result = entityManager.createNativeQuery(query, Cliente.class).getResultList();
+		
+		return result ;
+		//return clienteRepository.findByNomeCompletoLike(term);
 	}
 
 }
